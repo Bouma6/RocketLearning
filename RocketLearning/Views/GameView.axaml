@@ -1,0 +1,15 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:RocketLearning.ViewModels"
+             x:Class="RocketLearning.Views.GameView"
+             x:DataType="vm:GameViewModel"
+             Focusable="True"
+             KeyDown="UserControl_KeyDown">
+
+    <Canvas>
+        <TextBlock Text="🚀"
+                   FontSize="40"
+                   Canvas.Left="280"
+                   Canvas.Top="{Binding RocketY}" />
+    </Canvas>
+</UserControl>

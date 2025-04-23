@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RocketLearning", "RocketLearning\RocketLearning.csproj", "{4AA52DF8-E85A-420B-8E19-81C1B53B8D3A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game", "Game\Game.csproj", "{29BF48A8-6573-4F47-A6FA-74EC0995677D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4AA52DF8-E85A-420B-8E19-81C1B53B8D3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AA52DF8-E85A-420B-8E19-81C1B53B8D3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4AA52DF8-E85A-420B-8E19-81C1B53B8D3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4AA52DF8-E85A-420B-8E19-81C1B53B8D3A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29BF48A8-6573-4F47-A6FA-74EC0995677D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29BF48A8-6573-4F47-A6FA-74EC0995677D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29BF48A8-6573-4F47-A6FA-74EC0995677D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29BF48A8-6573-4F47-A6FA-74EC0995677D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

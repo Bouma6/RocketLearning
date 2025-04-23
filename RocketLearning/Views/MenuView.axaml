@@ -1,0 +1,24 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:RocketLearning.ViewModels"
+             x:Class="RocketLearning.Views.MenuView"
+             x:DataType="vm:MenuViewModel">
+
+    <Grid RowDefinitions="Auto,*" Margin="20">
+        <!-- Title Section -->
+        <TextBlock Text="🚀 Rocket Learning 🚀"
+                   FontSize="45"
+                   FontWeight="Bold"
+                   HorizontalAlignment="Center"
+                   Margin="0,40,0,20"
+                   Grid.Row="0" />
+
+        <!-- Buttons Section -->
+        <StackPanel Grid.Row="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Spacing="15">
+            <Button Content="Start Learning" Width="200" Command="{Binding StartCommand}"/>
+        </StackPanel>
+    </Grid>
+</UserControl>
