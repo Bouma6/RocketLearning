@@ -7,7 +7,7 @@
     <Grid RowDefinitions="Auto,*" Margin="20">
         <!-- Title Section -->
         <TextBlock Text="🚀 Rocket Learning 🚀"
-                   FontSize="45"
+                   FontSize="100"
                    FontWeight="Bold"
                    HorizontalAlignment="Center"
                    Margin="0,40,0,20"
@@ -18,7 +18,7 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Spacing="15">
-            <Button Content="Start Learning" Width="200" Command="{Binding StartCommand}"/>
+            <Button Content="Play" Width="200" Command="{Binding StartCommand}"/>
         </StackPanel>
     </Grid>
 </UserControl>

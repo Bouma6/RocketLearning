@@ -1,23 +1,37 @@
-
 namespace RocketLearning.Game;
-
+//TO DO: Game object from which Rocket inherits and Games physics which apply to all game objects
 public class Rocket
 {
-    private const double AngleChange = 3;
-    private const double Speed = 10;
+    private const double AngleChange = 4;
+    private const double EnginePower = 0.75;
+    private const double Gravity = 0.03;
 
-    public double PositionY { get; set; } = 100;
-    public double PositionX { get; set; } = 100;
-    public double Angle { get; set; }               
-
-    private void Motor(bool left)
+    public double PositionX { get; private set; } = 400;
+    public double PositionY { get; private set; } = 100;
+    private double VelocityX { get; set; }
+    private double VelocityY { get; set; }
+    public double Angle { get; private set; }
+    
+    public void LeftMotor()
     {
-        Angle = left ? (Angle + AngleChange)%360 : (Angle - AngleChange)%360;
-        var radians = Angle * (Math.PI / 180);
-        
-        PositionX += Math.Sin(radians) * Speed;
-        PositionY += Math.Cos(radians) * Speed;
+        ApplyThrust(true);
     }
-    public void LeftMotor() => Motor(true);
-    public void RightMotor() => Motor(false);
+
+    public void RightMotor()
+    {        
+        ApplyThrust(false);
+    }
+    private void ApplyThrust(bool left)
+    {
+        Angle = left ? Angle-AngleChange : Angle + AngleChange;
+        var radians = Angle * (Math.PI / 180);
+        VelocityX += Math.Sin(radians) * EnginePower;
+        VelocityY += Math.Cos(radians) * EnginePower;
+    }
+    public void Tick()
+    {
+        VelocityY -= Gravity;
+        PositionX += VelocityX;
+        PositionY += VelocityY;
+    }
 }
