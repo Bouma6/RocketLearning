@@ -8,8 +8,8 @@
 
     <Canvas>
         <Image Source="avares://RocketLearning/Assets/RocketPixel.png"
-               Width="48" Height="48"
-               Canvas.Left="280"
+               Width="160" Height="160"
+               Canvas.Left="{Binding RocketPositionX}"
                Canvas.Top="{Binding RocketPositionY}" />
     </Canvas>
 </UserControl>

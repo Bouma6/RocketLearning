@@ -2,15 +2,14 @@
 
 namespace RocketLearning.ViewModels;
 
-public partial class MainWindowViewModel : ViewModelBase
+public class MainWindowViewModel : ViewModelBase
 {
-    private object _currentView;
+    private object _currentView = null!;
     public object CurrentView
     {
         get => _currentView;
         set => SetProperty(ref _currentView, value);
     }
-
     public ICommand StartCommand { get; }
 
     public MainWindowViewModel()
