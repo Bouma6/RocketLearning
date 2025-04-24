@@ -11,7 +11,6 @@ public class GameViewModel : ViewModelBase
     private Rocket Rocket { get; }
 
     private readonly DispatcherTimer _timer;
-
     public GameViewModel()
     {
         Rocket = new Rocket();
