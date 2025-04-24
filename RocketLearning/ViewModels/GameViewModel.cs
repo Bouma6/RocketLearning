@@ -1,25 +1,25 @@
-using System.Windows.Input;
 using Avalonia.Input;
-
 namespace RocketLearning.ViewModels;
+using RocketLearning.Game;
 
 public class GameViewModel : ViewModelBase
 {
-    private int _rocketY;
-    public int RocketY
-    {
-        get => _rocketY;
-        set => SetProperty(ref _rocketY, value);
-    }
+    private Rocket Rocket { get; }
 
     public GameViewModel()
     {
-        RocketY = 100;
+        Rocket = new Rocket { PositionY = 100,PositionX = 100 };
     }
 
     public void OnKeyPressed(KeyEventArgs e)
     {
-        if (e.Key == Key.Up) RocketY -= 10;
-        if (e.Key == Key.Down) RocketY += 10;
+        if (e.Key == Key.Left)
+            Rocket.LeftMotor();
+        if (e.Key == Key.Right)
+            Rocket.RightMotor();
+        OnPropertyChanged(nameof(RocketPositionY));
     }
+
+    public double RocketPositionY => Rocket.PositionY;
+    public double RocketPositionX => Rocket.PositionX;
 }

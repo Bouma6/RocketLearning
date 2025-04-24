@@ -6,6 +6,7 @@
         x:DataType="vm:MainWindowViewModel"
         Width="800" Height="500"
         Title="Rocket Learning">
+    
 
     <ContentControl Content="{Binding CurrentView}" />
 </Window>

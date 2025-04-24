@@ -7,9 +7,9 @@
              KeyDown="UserControl_KeyDown">
 
     <Canvas>
-        <TextBlock Text="🚀"
-                   FontSize="40"
-                   Canvas.Left="280"
-                   Canvas.Top="{Binding RocketY}" />
+        <Image Source="avares://RocketLearning/Assets/RocketPixel.png"
+               Width="48" Height="48"
+               Canvas.Left="280"
+               Canvas.Top="{Binding RocketPositionY}" />
     </Canvas>
 </UserControl>
