@@ -10,6 +10,10 @@
         <Image Source="avares://RocketLearning/Assets/RocketPixel.png"
                Width="160" Height="160"
                Canvas.Left="{Binding RocketPositionX}"
-               Canvas.Top="{Binding RocketPositionY}" />
+               Canvas.Top="{Binding RocketPositionY}">
+            <Image.RenderTransform>
+                <RotateTransform Angle="{Binding RocketAngle}"/>
+            </Image.RenderTransform>
+        </Image>
     </Canvas>
 </UserControl>
