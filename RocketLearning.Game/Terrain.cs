@@ -22,7 +22,6 @@ public class Terrain
         var rocketLeft = rocket.PositionX-40;
         var rocketRight = rocket.PositionX+40;
         
-        
         var verticallyAligned = rocketBottom >= PlatformY && rocketBottom <= PlatformY + PlatformHeight;
         var horizontallyAligned = rocketRight >= PlatformX && rocketLeft <= PlatformX + PlatformWidth;
 

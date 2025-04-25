@@ -32,5 +32,7 @@ public class GameViewModel : ViewModelBase
             _state.Rocket.LeftMotor();
         if (e.Key == Key.Right)
             _state.Rocket.RightMotor();
+        if (e.Key == Key.Up)
+            _state.Rocket.Motor();
     }
 }

@@ -26,6 +26,13 @@ public class Rocket
     {        
         ApplyThrust(false);
     }
+
+    public void Motor()
+    {
+        var radians = Angle * (Math.PI / 180);
+        VelocityX += Math.Sin(radians) * EnginePower;
+        VelocityY += Math.Cos(radians) * EnginePower;
+    }
     private void ApplyThrust(bool left)
     {
         Angle = left ? Angle-AngleChange : Angle + AngleChange;
