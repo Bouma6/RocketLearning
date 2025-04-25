@@ -7,6 +7,10 @@
              KeyDown="UserControl_KeyDown">
 
     <Canvas>
+        <Rectangle Width="200" Height="10"
+                   Fill="LightGray"
+                   Canvas.Left="600"
+                   Canvas.Bottom="100"/>
         <Image Source="avares://RocketLearning/Assets/RocketPixel.png"
                Width="180" Height="180"
                Canvas.Left="{Binding RocketPositionX}"

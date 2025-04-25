@@ -1,5 +1,10 @@
 namespace RocketLearning.Game;
+//TO DO: Game state will have the rocket and GameViewModel will have gameState
 //TO DO: Game object from which Rocket inherits and Games physics which apply to all game objects
+//TO DO: Terrain 
+//TO DO: Crashing when outside the bounds
+//TO DO: Score when landing 
+//TO DO: Improve physics of the rocket when landing such that it can flip or fall on its side 
 public class Rocket
 {
     private const double AngleChange = 4;
@@ -8,8 +13,8 @@ public class Rocket
 
     public double PositionX { get; private set; } = 400;
     public double PositionY { get; private set; } = 100;
-    private double VelocityX { get; set; }
-    private double VelocityY { get; set; }
+    public double VelocityX { get; private set; }
+    public double VelocityY { get; private set; }
     public double Angle { get; private set; }
     
     public void LeftMotor()
