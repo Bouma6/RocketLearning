@@ -12,6 +12,7 @@
         MinHeight="900"
         WindowStartupLocation="CenterScreen"
         Title="Rocket Learning">
+        
     
 
     <ContentControl Content="{Binding CurrentView}" />

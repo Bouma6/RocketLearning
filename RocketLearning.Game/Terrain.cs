@@ -6,9 +6,9 @@ public class Terrain
     private const double Screenheight = 900;
 
     // Position and size of the landing pad
-    public double PlatformX { get;} = 700;
-    public double PlatformY { get;} = 100;
-    public double PlatformWidth { get;} = 200;
+    public double PlatformX { get;} = 600;
+    public double PlatformY { get;} = 110;
+    public double PlatformWidth { get;} = 250;
     public double PlatformHeight { get;} = 10;
 
     // For drawing
@@ -26,7 +26,11 @@ public class Terrain
         var horizontallyAligned = rocketRight >= PlatformX && rocketLeft <= PlatformX + PlatformWidth;
 
         if (verticallyAligned && horizontallyAligned) {return RocketStates.LandedInbound;}
-        if (verticallyAligned){return RocketStates.LandedOutbound;}
+
+        if ((rocketBottom<PlatformY-40 &&rocketLeft<150)||(rocketBottom<PlatformY-20)||(rocketBottom<PlatformY-40 &&rocketLeft>1200))
+        {
+            return RocketStates.LandedOutbound;
+        }
         if (rocketLeft <= 20 || rocketRight >= Screenwidth + 20 || rocketBottom >= Screenheight) {return RocketStates.OutOfBounds;}
 
         return RocketStates.Flying;

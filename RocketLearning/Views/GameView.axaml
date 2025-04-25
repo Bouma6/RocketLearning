@@ -7,7 +7,17 @@
              KeyDown="UserControl_KeyDown">
 
     <Canvas>
-        <Rectangle Fill="Red"
+        <Image Source="avares://RocketLearning/Assets/Background.png"
+               Stretch="Fill" />
+        <Image Source ="avares://RocketLearning/Assets/Flag.png"
+               Width="180" Height="180"
+               Canvas.Left="{Binding LeftFlagX}"
+               Canvas.Bottom="{Binding FlagY}"/>
+        <Image Source ="avares://RocketLearning/Assets/Flag.png"
+               Width="180" Height="180"
+               Canvas.Left="{Binding RightFlagX}"
+               Canvas.Bottom="{Binding FlagY}"/>
+        <Rectangle Fill="Snow"
                    Width="{Binding PlatformWidth}"
                    Height="{Binding PlatformHeight}"
                    Canvas.Left="{Binding PlatformX}"

@@ -5,15 +5,16 @@
              x:DataType="vm:MenuViewModel">
 
     <Grid RowDefinitions="Auto,*" Margin="20">
-        <!-- Title Section -->
-        <TextBlock Text="🚀 Rocket Learning 🚀"
+        <Image Source="avares://RocketLearning/Assets/Background.png"
+               Stretch="Fill"
+               Grid.RowSpan="2"/>
+        <TextBlock Text=" Rocket Learning "
                    FontSize="100"
                    FontWeight="Bold"
                    HorizontalAlignment="Center"
                    Margin="0,40,0,20"
                    Grid.Row="0" />
 
-        <!-- Buttons Section -->
         <StackPanel Grid.Row="1"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"

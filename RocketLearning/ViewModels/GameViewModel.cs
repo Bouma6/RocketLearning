@@ -12,6 +12,9 @@ public class GameViewModel : ViewModelBase
     public double PlatformY => _state.Terrain.PlatformY;
     public double PlatformWidth => _state.Terrain.PlatformWidth;
     public double PlatformHeight => _state.Terrain.PlatformHeight;
+    public double LeftFlagX => _state.Terrain.PlatformX -55;
+    public double FlagY => _state.Terrain.PlatformY-30;
+    public double RightFlagX => _state.Terrain.PlatformX +PlatformWidth - 60;
     public GameViewModel()
     {
         _state.OnStateChanged += () =>
