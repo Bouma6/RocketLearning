@@ -11,8 +11,8 @@ public class Rocket
     private const double EnginePower = 0.75;
     private const double Gravity = 0.03;
 
-    public double PositionX { get; private set; } = 400;
-    public double PositionY { get; private set; } = 100;
+    public double PositionX { get; private set; } = 200.0 + new Random().NextDouble() * 1200.0;
+    public double PositionY { get; private set; } = 700.0 + new Random().NextDouble() * 100.0;
     public double VelocityX { get; private set; }
     public double VelocityY { get; private set; }
     public double Angle { get; private set; }

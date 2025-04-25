@@ -4,7 +4,7 @@
         xmlns:vm="clr-namespace:RocketLearning.ViewModels"
         x:Class="RocketLearning.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
-        Width="800" Height="500"
+        Width="1600" Height="900"
         CanResize="False"
         MaxWidth="1600"
         MaxHeight="900"

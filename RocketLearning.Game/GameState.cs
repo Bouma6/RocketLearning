@@ -44,15 +44,11 @@ public class GameState
 
     private void CheckLandingOrCrash()
     {
-        if (!Terrain.CheckLanding(Rocket)) return;
-
+        var landing = Terrain.CheckLanding(Rocket);
+        
+        if (landing == RocketStates.Flying) return;
         GameOver = true;
-
-        bool safeLanding = Math.Abs(Rocket.VelocityY) < 1.5 &&
-                           Math.Abs(Rocket.VelocityX) < 1.5 &&
-                           Math.Abs(NormalizeAngle(Rocket.Angle)) < 10;
-
-        if (safeLanding)
+        if (landing is RocketStates.LandedInbound or RocketStates.OutOfBounds)
         {
             Landed = true;
             Crashed = false;
@@ -70,11 +66,5 @@ public class GameState
         {
             Score = Math.Max(1000 - Time * 10, 0);
         }
-    }
-
-    private double NormalizeAngle(double angle)
-    {
-        angle %= 360;
-        return angle < 0 ? angle + 360 : angle;
     }
 }

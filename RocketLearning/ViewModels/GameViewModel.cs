@@ -8,7 +8,10 @@ namespace RocketLearning.ViewModels;
 public class GameViewModel : ViewModelBase
 {
     private readonly GameState _state = new GameState();
-    public (double X, double Y, double Width, double Height) PlatformRect => _state.Terrain.GetPlatformRect();
+    public double PlatformX => _state.Terrain.PlatformX;
+    public double PlatformY => _state.Terrain.PlatformY;
+    public double PlatformWidth => _state.Terrain.PlatformWidth;
+    public double PlatformHeight => _state.Terrain.PlatformHeight;
     public GameViewModel()
     {
         _state.OnStateChanged += () =>
