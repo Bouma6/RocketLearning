@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RocketLearning", "RocketLea
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RocketLearning.Game", "RocketLearning.Game\RocketLearning.Game.csproj", "{FB8EC8CF-21F2-4228-85D9-EA6008797F10}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RocketLearning.Agent", "RocketLearning.Agent\RocketLearning.Agent.csproj", "{A8E5AD23-2EF0-48E3-959A-426729B4210D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{FB8EC8CF-21F2-4228-85D9-EA6008797F10}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB8EC8CF-21F2-4228-85D9-EA6008797F10}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB8EC8CF-21F2-4228-85D9-EA6008797F10}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8E5AD23-2EF0-48E3-959A-426729B4210D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8E5AD23-2EF0-48E3-959A-426729B4210D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8E5AD23-2EF0-48E3-959A-426729B4210D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8E5AD23-2EF0-48E3-959A-426729B4210D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
