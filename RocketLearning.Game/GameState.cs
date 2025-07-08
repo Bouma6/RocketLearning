@@ -46,7 +46,7 @@ public class GameState
     private void ConstantPunishment()
     {
         var punish = TimePunishment * (Math.Abs(Rocket.PositionX - Terrain.PlatformX) ) *
-            (Math.Abs(Rocket.PositionY - Terrain.PlatformY) ) / 1000000;
+            (Math.Abs(Rocket.PositionY - Terrain.PlatformY) ) / 600000;
         Score -= punish;
         Console.WriteLine($"Punishment: {punish}");
     }
@@ -78,7 +78,7 @@ public class GameState
         Score -= Math.Abs(Rocket.VelocityX) * VelocityPunishment;
         Score -= Math.Abs(Rocket.VelocityY) * VelocityPunishment;
         Score -= Math.Abs(Rocket.Angle) * AnglePunishment;
-        
+        Score = Math.Max(Score,10);
         Console.WriteLine($"Final score:{Score}");
     }
 

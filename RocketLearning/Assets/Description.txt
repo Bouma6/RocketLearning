@@ -1,0 +1,5 @@
+Prvá časť mojho zápočtového programu by bola 2D hra. Kde by sa dalo pristávať a lietať s raketou. Raketa by mala 4 možné trénoviacie inputy (lavý motor, pravý motor , hlavný motor - raketa ide hore,  nič). Raketa by mala limitované množstvo paliva za pomoci ktorého musí pristáť.
+Pri každom spustení by sa vygenerovala nová mapa.Niečo podobné ako je v Pythone knižnica gymnasium LunarLander https://gymnasium.farama.org/environments/box2d/lunar_lander/ za pomoci knižnice Avalonia ktorá slúži na vytváranie aplikácií.
+
+Dalej ako druhú čast by som implementoval že namiesto toho aby pristával človek by sa dala zvoliť možnosť že by pristávalo AI. A na natrénovanie pristávania by som použil NEAT - genetický algoritmus na natrenovanie neuronových sietí. Ktorý by som celý naimplementoval bez použitia pokročilých knižníc ktoré majú NEAT už naimplementovaný.
+V prípade že by program bol moc krátky pridal by som implementáciu pomocou Q learningu a porovnal ich výsledky.Z pokročilých partií som chcel primárne skúsiť paralelne trénovať.
