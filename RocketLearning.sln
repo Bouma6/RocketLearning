@@ -8,6 +8,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RocketLearning.Agent", "Roc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RocketLearning.ReinforcementLearning", "RocketLearning.ReinforcementLearning\RocketLearning.ReinforcementLearning.csproj", "{A9C7EAC0-E951-40AB-8DFA-420B49F50D50}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NEAT", "NEAT\NEAT.csproj", "{39A0AF3E-6A5E-4598-8CFE-2446490F4C1D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuralNetwork", "NeuralNetwork\NeuralNetwork.csproj", "{DEAE1057-E8AA-4E9C-A3B6-215DA4712DF7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +34,13 @@ Global
 		{A9C7EAC0-E951-40AB-8DFA-420B49F50D50}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A9C7EAC0-E951-40AB-8DFA-420B49F50D50}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A9C7EAC0-E951-40AB-8DFA-420B49F50D50}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39A0AF3E-6A5E-4598-8CFE-2446490F4C1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39A0AF3E-6A5E-4598-8CFE-2446490F4C1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39A0AF3E-6A5E-4598-8CFE-2446490F4C1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39A0AF3E-6A5E-4598-8CFE-2446490F4C1D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DEAE1057-E8AA-4E9C-A3B6-215DA4712DF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEAE1057-E8AA-4E9C-A3B6-215DA4712DF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DEAE1057-E8AA-4E9C-A3B6-215DA4712DF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DEAE1057-E8AA-4E9C-A3B6-215DA4712DF7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
