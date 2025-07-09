@@ -9,8 +9,4 @@ public class RelayCommand(Action execute, Func<bool>? canExecute = null) : IComm
     public void Execute(object? parameter) => execute();
 
     public event EventHandler? CanExecuteChanged;
-
-    // Optional: trigger this manually if command availability changes
-    public void RaiseCanExecuteChanged() =>
-        CanExecuteChanged?.Invoke(this, EventArgs.Empty);
 }

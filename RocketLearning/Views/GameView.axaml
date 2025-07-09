@@ -25,6 +25,18 @@
                        Height="{Binding PlatformHeight}"
                        Canvas.Left="{Binding PlatformX}"
                        Canvas.Bottom="{Binding PlatformY}" />
+            
+            <TextBlock Text="{Binding FormattedTime}"
+                       FontSize="24"
+                       Foreground="White"
+                       HorizontalAlignment="Center" />
+            
+            <TextBlock Text="{Binding BestScore, StringFormat=Best: {0:F2}}"
+                       FontSize="20"
+                       Foreground="White"
+                       Margin="20"
+                       HorizontalAlignment="Right"
+                       VerticalAlignment="Top" />
 
             <Image Source="avares://RocketLearning/Assets/RocketPixel.png"
                    Width="180" Height="180"
@@ -38,7 +50,7 @@
         </Canvas>
 
         <!-- Overlay UI when crashed -->
-        <StackPanel IsVisible="{Binding Crashed}"
+        <StackPanel IsVisible="{Binding GameOver}"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Background="#88000000"

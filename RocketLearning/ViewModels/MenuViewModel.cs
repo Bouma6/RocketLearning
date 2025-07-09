@@ -2,7 +2,10 @@ using System.Windows.Input;
 
 namespace RocketLearning.ViewModels;
 
-public class MenuViewModel(MainWindowViewModel main) : ViewModelBase
+public class MenuViewModel(MainWindowViewModel _main) : ViewModelBase
 {
-    public ICommand StartCommand { get; } = new RelayCommand(() => main.CurrentView = new GameViewModel(main));
+    public double PersistentBestScore => _main.AllTimeBestScore;
+    public double SessionBestScore => _main.SessionBestScore;
+
+    public ICommand StartCommand { get; } = new RelayCommand(() => _main.CurrentView = new GameViewModel(_main));
 }

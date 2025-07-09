@@ -9,8 +9,11 @@ namespace RocketLearning.ViewModels;
 public class GameViewModel : ViewModelBase
 {
     private readonly GameState _state = new GameState();
-    public bool Crashed => _state.GameOver;
+    public bool GameOver => _state.GameOver;
     public double Score => _state.Score;
+    public double BestScore => _main.SessionBestScore;
+
+    public string FormattedTime => TimeSpan.FromSeconds(_state.Time).ToString(@"mm\:ss\.ff");
     public double PlatformX => _state.Terrain.PlatformX;
     public double PlatformY => _state.Terrain.PlatformY;
     public double PlatformWidth => _state.Terrain.PlatformWidth;
@@ -32,8 +35,12 @@ public class GameViewModel : ViewModelBase
             OnPropertyChanged(nameof(RocketPositionX));
             OnPropertyChanged(nameof(RocketPositionY));
             OnPropertyChanged(nameof(RocketAngle));
-            OnPropertyChanged(nameof(Crashed));
+            OnPropertyChanged(nameof(GameOver));
             OnPropertyChanged(nameof(Score));
+            OnPropertyChanged(nameof(FormattedTime));
+            OnPropertyChanged(nameof(BestScore));
+            if (GameOver)
+                _main.ReportScore(_state.Score);
         };
 
         ResetCommand = new RelayCommand(() => _state.Reset());
