@@ -6,4 +6,9 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\RocketLearning.Game\RocketLearning.Game.csproj" />
+      <ProjectReference Include="..\RocketLearning.ReinforcementLearning\RocketLearning.ReinforcementLearning.csproj" />
+    </ItemGroup>
+
 </Project>
