@@ -7,49 +7,63 @@
              KeyDown="UserControl_KeyDown">
 
     <Grid>
-        <!-- Game Canvas -->
-        <Canvas>
-            <Image Source="avares://RocketLearning/Assets/Background.png" Stretch="Fill" />
-            
-            <Image Source="avares://RocketLearning/Assets/Flag.png"
-                   Width="180" Height="180"
-                   Canvas.Left="{Binding LeftFlagX}"
-                   Canvas.Bottom="{Binding FlagY}" />
-            <Image Source="avares://RocketLearning/Assets/Flag.png"
-                   Width="180" Height="180"
-                   Canvas.Left="{Binding RightFlagX}"
-                   Canvas.Bottom="{Binding FlagY}" />
+        <!-- Canvas for Game World -->
+        <Canvas ClipToBounds="True"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch">
 
+            <!-- Background -->
+            <Image Source="avares://RocketLearning/Assets/Background.png"
+                   Stretch="Fill"
+                   Width="1600" Height="900" />
+
+            <!-- Landing Platform -->
             <Rectangle Fill="Snow"
                        Width="{Binding PlatformWidth}"
                        Height="{Binding PlatformHeight}"
                        Canvas.Left="{Binding PlatformX}"
                        Canvas.Bottom="{Binding PlatformY}" />
-            
-            <TextBlock Text="{Binding FormattedTime}"
-                       FontSize="24"
-                       Foreground="White"
-                       HorizontalAlignment="Center" />
-            
-            <TextBlock Text="{Binding BestScore, StringFormat=Best: {0:F2}}"
-                       FontSize="20"
-                       Foreground="White"
-                       Margin="20"
-                       HorizontalAlignment="Right"
-                       VerticalAlignment="Top" />
 
+            <!-- Flags -->
+            <Image Source="avares://RocketLearning/Assets/Flag.png"
+                   Width="180" Height="180"
+                   Canvas.Left="{Binding LeftFlagX}"
+                   Canvas.Bottom="{Binding FlagY}" />
+
+            <Image Source="avares://RocketLearning/Assets/Flag.png"
+                   Width="180" Height="180"
+                   Canvas.Left="{Binding RightFlagX}"
+                   Canvas.Bottom="{Binding FlagY}" />
+
+            <!-- Rocket -->
             <Image Source="avares://RocketLearning/Assets/RocketPixel.png"
                    Width="180" Height="180"
                    Canvas.Left="{Binding RocketPositionX}"
                    Canvas.Bottom="{Binding RocketPositionY}"
                    RenderTransformOrigin="0.5,0.5">
                 <Image.RenderTransform>
-                    <RotateTransform Angle="{Binding RocketAngle}" CenterX="80" CenterY="80" />
+                    <RotateTransform Angle="{Binding RocketAngle}" CenterX="90" CenterY="90" />
                 </Image.RenderTransform>
             </Image>
         </Canvas>
 
-        <!-- Overlay UI when crashed -->
+        <!-- Overlay UI: Top-left time display -->
+        <TextBlock Text="{Binding FormattedTime}"
+                   FontSize="24"
+                   Foreground="White"
+                   Margin="20"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top" />
+
+        <!-- Overlay UI: Top-right best score -->
+        <TextBlock Text="{Binding BestScore, StringFormat=Best: {0:F2}}"
+                   FontSize="24"
+                   Foreground="White"
+                   Margin="20"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Top" />
+
+        <!-- Overlay UI: Crash/Land Menu -->
         <StackPanel IsVisible="{Binding GameOver}"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
@@ -71,7 +85,7 @@
                     Command="{Binding ResetCommand}"
                     Width="150"
                     HorizontalAlignment="Center" />
-            
+
             <Button Content="Back to Menu"
                     Command="{Binding BackToMenuCommand}"
                     Width="150"

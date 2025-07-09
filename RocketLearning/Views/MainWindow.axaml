@@ -6,14 +6,8 @@
         x:DataType="vm:MainWindowViewModel"
         Width="1600" Height="900"
         CanResize="False"
-        MaxWidth="1600"
-        MaxHeight="900"
-        MinWidth="1600"
-        MinHeight="900"
         WindowStartupLocation="CenterScreen"
         Title="Rocket Learning">
-        
     
-
     <ContentControl Content="{Binding CurrentView}" />
 </Window>

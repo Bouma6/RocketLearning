@@ -4,7 +4,7 @@
              x:Class="RocketLearning.Views.MenuView"
              x:DataType="vm:MenuViewModel">
 
-    <Grid RowDefinitions="Auto,*" Margin="20">
+    <Grid RowDefinitions="Auto,*">
         <Image Source="avares://RocketLearning/Assets/Background.png"
                Stretch="Fill"
                Grid.RowSpan="2"/>
@@ -16,9 +16,9 @@
                    Grid.Row="0" />
         <StackPanel Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="20" Spacing="5">
             <TextBlock Text="{Binding PersistentBestScore, StringFormat=All-time Best: {0:F2}}"
-                       FontSize="18" Foreground="White"/>
+                       FontSize="24" Foreground="White"/>
             <TextBlock Text="{Binding SessionBestScore, StringFormat=Session Best: {0:F2}}"
-                       FontSize="18" Foreground="White"/>
+                       FontSize="24" Foreground="White"/>
         </StackPanel>
 
         <StackPanel Grid.Row="1"

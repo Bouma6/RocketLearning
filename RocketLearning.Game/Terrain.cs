@@ -7,7 +7,7 @@ public class Terrain
 
     // Position and size of the landing pad
     public double PlatformX { get;} = 600;
-    public double PlatformY { get;} = 110;
+    public double PlatformY { get;} = 210;
     public double PlatformWidth { get;} = 250;
     public double PlatformHeight { get;} = 10;
 
