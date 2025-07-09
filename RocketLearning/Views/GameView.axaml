@@ -6,30 +6,64 @@
              Focusable="True"
              KeyDown="UserControl_KeyDown">
 
-    <Canvas>
-        <Image Source="avares://RocketLearning/Assets/Background.png"
-               Stretch="Fill" />
-        <Image Source ="avares://RocketLearning/Assets/Flag.png"
-               Width="180" Height="180"
-               Canvas.Left="{Binding LeftFlagX}"
-               Canvas.Bottom="{Binding FlagY}"/>
-        <Image Source ="avares://RocketLearning/Assets/Flag.png"
-               Width="180" Height="180"
-               Canvas.Left="{Binding RightFlagX}"
-               Canvas.Bottom="{Binding FlagY}"/>
-        <Rectangle Fill="Snow"
-                   Width="{Binding PlatformWidth}"
-                   Height="{Binding PlatformHeight}"
-                   Canvas.Left="{Binding PlatformX}"
-                   Canvas.Bottom="{Binding PlatformY}" />
-        <Image Source="avares://RocketLearning/Assets/RocketPixel.png"
-               Width="180" Height="180"
-               Canvas.Left="{Binding RocketPositionX}"
-               Canvas.Bottom="{Binding RocketPositionY}"
-               RenderTransformOrigin="0.5,0.5">
-            <Image.RenderTransform>
-                <RotateTransform Angle="{Binding RocketAngle}" CenterX="80" CenterY="80" />
-            </Image.RenderTransform>
-        </Image>
-    </Canvas>
+    <Grid>
+        <!-- Game Canvas -->
+        <Canvas>
+            <Image Source="avares://RocketLearning/Assets/Background.png" Stretch="Fill" />
+            
+            <Image Source="avares://RocketLearning/Assets/Flag.png"
+                   Width="180" Height="180"
+                   Canvas.Left="{Binding LeftFlagX}"
+                   Canvas.Bottom="{Binding FlagY}" />
+            <Image Source="avares://RocketLearning/Assets/Flag.png"
+                   Width="180" Height="180"
+                   Canvas.Left="{Binding RightFlagX}"
+                   Canvas.Bottom="{Binding FlagY}" />
+
+            <Rectangle Fill="Snow"
+                       Width="{Binding PlatformWidth}"
+                       Height="{Binding PlatformHeight}"
+                       Canvas.Left="{Binding PlatformX}"
+                       Canvas.Bottom="{Binding PlatformY}" />
+
+            <Image Source="avares://RocketLearning/Assets/RocketPixel.png"
+                   Width="180" Height="180"
+                   Canvas.Left="{Binding RocketPositionX}"
+                   Canvas.Bottom="{Binding RocketPositionY}"
+                   RenderTransformOrigin="0.5,0.5">
+                <Image.RenderTransform>
+                    <RotateTransform Angle="{Binding RocketAngle}" CenterX="80" CenterY="80" />
+                </Image.RenderTransform>
+            </Image>
+        </Canvas>
+
+        <!-- Overlay UI when crashed -->
+        <StackPanel IsVisible="{Binding Crashed}"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Background="#88000000"
+                    Spacing="20">
+
+            <TextBlock Text="You Crashed!" 
+                       FontSize="40" 
+                       FontWeight="Bold" 
+                       Foreground="White"
+                       HorizontalAlignment="Center" />
+
+            <TextBlock Text="{Binding Score, StringFormat=Score: {0:F2}}"
+                       FontSize="24"
+                       Foreground="White"
+                       HorizontalAlignment="Center" />
+
+            <Button Content="Reset" 
+                    Command="{Binding ResetCommand}"
+                    Width="150"
+                    HorizontalAlignment="Center" />
+            
+            <Button Content="Back to Menu"
+                    Command="{Binding BackToMenuCommand}"
+                    Width="150"
+                    HorizontalAlignment="Center" />
+        </StackPanel>
+    </Grid>
 </UserControl>

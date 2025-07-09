@@ -20,6 +20,6 @@ public class MainWindowViewModel : ViewModelBase
 
     private void StartGame()
     {
-        CurrentView = new GameViewModel();
+        CurrentView = new GameViewModel(this);
     }
 }
