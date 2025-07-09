@@ -11,29 +11,41 @@ public class GameState
     const int AnglePunishment = 50;
     const int TimePunishment = 3; 
     public double Score { get; private set; } = 0;
+    private double _timeScale  = 1;
     public double Time { get; private set; } = 0.0;
     public bool Crashed { get; private set; } = false;
     public bool Landed { get; private set; } = false;
     public bool GameOver { get; private set; } = false;
-
     public event Action? OnStateChanged;
-
     private readonly DispatcherTimer _timer;
+    private RocketInput _pendingInput = RocketInput.None;
+
+
 
     public GameState()
     {
         _timer = new DispatcherTimer
         {
-            Interval = TimeSpan.FromMilliseconds(16) // ~60 FPS
+            Interval = TimeSpan.FromMilliseconds(16/_timeScale) // ~60 FPS
         };
-        _timer.Tick += (_, _) => Tick();
+        _timer.Tick += (_, _) => TickRealTime();
         _timer.Start();
     }
-
-    private void Tick()
+    private void StepOnce(RocketInput input)
     {
         if (GameOver) return;
 
+        switch (input)
+        {
+            case RocketInput.Left:
+                Rocket.LeftMotor();
+                break;
+            case RocketInput.Right:
+                Rocket.RightMotor();
+                break;
+            case RocketInput.None:
+                break;
+        }
         Rocket.Tick();
         Time += 1.0 / 60.0;
 
@@ -41,6 +53,28 @@ public class GameState
         ConstantPunishment();
         
         OnStateChanged?.Invoke();
+    }
+    public void SetInput(RocketInput input)
+    {
+        _pendingInput = input;
+    }
+    public void Reset()
+    {
+        Rocket = new Rocket();
+        Terrain = new Terrain();
+        Time = 0;
+        GameOver = false;
+        Landed = false;
+        Crashed = false;
+        Score = 0;
+    }
+
+    public void TickRealTime()
+    {
+        if (GameOver) return;
+
+        StepOnce(_pendingInput);
+        _pendingInput = RocketInput.None;
     }
 
     private void ConstantPunishment()
