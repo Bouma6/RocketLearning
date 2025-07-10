@@ -4,11 +4,13 @@
 //Use network in NEATAgent DONE 
 //Add Trainer to evolve networks
 
-//Selections 
-//Trainer
+//Selections   DONE 
+//evaluation function - connect it to the game if possible xd somehow
+//Trainer 
+//Genome copy function
+//All the fucking mutations 
 //MEGA trainer ? 
 //Para :(
-//evaluation function - connect it to the game if possible xd somehow
 //Add buttons that will allow show and training (Maybe training menu to set up parameters?)
 //Test it. 
 //Hope for 45 KB
