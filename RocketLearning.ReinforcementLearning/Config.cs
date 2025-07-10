@@ -6,6 +6,11 @@ public class Config
     public const int InputSize = 7;
     public const int OutputSize = 3;
     
+    //Population
+    public const int PopulationSize = 100;
+    public const int NumberOfIterations = 1000;
+    
+    
     //ID of output layer nodes and bias node 
     public const int BiasNodeId = 999;
     public const int OutputLeftId = 1000;
@@ -34,11 +39,18 @@ public class Config
     
     //Does the NEAT try to maximise or minimise the fitness function 
     //Maybe this will not be used so be careful with this 
-    public const bool Maximise = true;
-    public bool Minimize = !Maximise;
+    public bool Maximise = true;
+    
+    //How many of the best individuals from previous generation you want to survive into the next generation.
+    public int Elitism = 3; 
     
     //Activation function - any function from ActivationFunction can be chosen ,or you can add a new one that you prefer
     public Func<double, double> Activation = ActivationFunction.Sigmoid;
 
-
+    //PARA
+    public bool Parallel = true;
+    //After how many generations all the threads should wait for each other to redistribute the individuals
+    public int SynchronizationLength = 10;
+    public int Cores = Environment.ProcessorCount;
+    
 }
