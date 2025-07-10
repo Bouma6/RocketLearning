@@ -37,20 +37,19 @@ public class Config
     //enable/disable connection probability 
     public const double EnableConnectionProbability = 0.01;
     
-    //Does the NEAT try to maximise or minimise the fitness function 
-    //Maybe this will not be used so be careful with this 
-    public bool Maximise = true;
-    
     //How many of the best individuals from previous generation you want to survive into the next generation.
     public int Elitism = 3; 
     
     //Activation function - any function from ActivationFunction can be chosen ,or you can add a new one that you prefer
-    public Func<double, double> Activation = ActivationFunction.Sigmoid;
+    public static ActivationDelegate Activation = ActivationFunction.Sigmoid;
+    public static SelectionDelegate Selection = SelectionFunction.RouletteSelection;
 
     //PARA
     public bool Parallel = true;
     //After how many generations all the threads should wait for each other to redistribute the individuals
     public int SynchronizationLength = 10;
     public int Cores = Environment.ProcessorCount;
+    
+    
     
 }
