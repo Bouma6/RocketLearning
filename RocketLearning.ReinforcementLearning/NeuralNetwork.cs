@@ -1,6 +1,6 @@
-//Create a clean NeuralNetwork class (no game logic)
-//Add a FeedForward method & test it
-//Add a Genome class (basic structure)
+//Create a clean NeuralNetwork class (no game logic) DONE 
+//Add a FeedForward method & test it DONE 
+//Add a Genome class (basic structure) 
 //Use network in NEATAgent
 //Add Trainer to evolve networks
 
@@ -12,7 +12,7 @@ public class NeuralNetwork(Func<double, double> activation)
     
     public List<Node> Nodes = [];
     public List<Connections> Connections = [];
-    public Func<double, double> ActivationFunction = activation;
+    public readonly Func<double, double> ActivationFunction = activation;
 
     public double[] FeedForward(double[] inputValues)
     {
@@ -56,8 +56,47 @@ public class NeuralNetwork(Func<double, double> activation)
 
     private List<Node> TopologicalSort()
     {
-        //TO DO: do proper implementation when I will be less tired 
-        return Nodes.OrderBy(n => n.Type).ToList();
+        var nodeMap = Nodes.ToDictionary(n => n.Id);
+        var incomingEdges = Nodes.ToDictionary(n => n.Id, _ => 0);
+
+        foreach (var connection in Connections)
+        {
+            if (connection.Active)
+                incomingEdges[connection.ToId]++;
+        }
+
+        var queue = new Queue<Node>(
+            Nodes.Where(n => incomingEdges[n.Id] == 0)
+        );
+
+        var sorted = new List<Node>();
+        var visited = new HashSet<int>();
+
+        while (queue.Count > 0)
+        {
+            var current = queue.Dequeue();
+            sorted.Add(current);
+            visited.Add(current.Id);
+
+            foreach (var conn in Connections)
+            {
+                if (!conn.Active || conn.FromId != current.Id) continue;
+
+                int toId = conn.ToId;
+                incomingEdges[toId]--;
+
+                if (incomingEdges[toId] == 0 && !visited.Contains(toId))
+                {
+                    queue.Enqueue(nodeMap[toId]);
+                }
+            }
+        }
+        // Some invalid nodes are still getting through 
+        // Try to make it such that no cyclic or unreached nodes even get in here 
+        if (sorted.Count != Nodes.Count)
+        {
+            Console.WriteLine("There are some nodes that are either unreachable or not in the graph.");
+        }
+        return sorted;
     }
-    
 }
