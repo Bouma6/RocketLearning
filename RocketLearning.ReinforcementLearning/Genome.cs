@@ -8,7 +8,7 @@ public class Genome
     
     
     //Build Neural Network from the genome, nodes and connections are copied 
-    public NeuralNetwork BuildNeuralNetwork(Func<double, double> activation)
+    public NeuralNetwork BuildNeuralNetwork(ActivationDelegate activation)
     {
         var network = new NeuralNetwork(activation)
         {

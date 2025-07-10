@@ -1,4 +1,5 @@
 namespace RocketLearning.ReinforcementLearning;
+public delegate double ActivationDelegate(double input);
 public static class ActivationFunction
 {
     public static double Sigmoid(double x) => 1.0 / (1.0 + Math.Exp(-x));

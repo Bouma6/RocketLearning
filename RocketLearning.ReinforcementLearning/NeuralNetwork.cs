@@ -1,18 +1,24 @@
 //Create a clean NeuralNetwork class (no game logic) DONE 
 //Add a FeedForward method & test it DONE 
-//Add a Genome class (basic structure) 
-//Use network in NEATAgent
+//Add a Genome class (basic structure) DONE 
+//Use network in NEATAgent DONE 
 //Add Trainer to evolve networks
 
+//Selections 
+//Trainer
+//MEGA trainer ? 
+//Para :(
+//evaluation function - connect it to the game if possible xd somehow
+//Add buttons that will allow show and training (Maybe training menu to set up parameters?)
+//Test it. 
+//Hope for 45 KB
 
 namespace RocketLearning.ReinforcementLearning;
 using System;
-public class NeuralNetwork(Func<double, double> activation)
+public class NeuralNetwork(ActivationDelegate activation)
 {
-    
     public List<Node> Nodes = [];
     public List<Connections> Connections = [];
-    public readonly Func<double, double> ActivationFunction = activation;
 
     public double[] FeedForward(double[] inputValues)
     {
@@ -43,13 +49,13 @@ public class NeuralNetwork(Func<double, double> activation)
                 {
                     //var target = Nodes.First(n => n.Id == connection.ToId);
                     var target = nodeMap[connection.ToId];
-                    target.Weight += ActivationFunction(node.Weight* connection.Weight);
+                    target.Weight += activation(node.Weight* connection.Weight);
                 }
             }
         }
         return Nodes
             .Where(n => n.Type == NodeType.Output)
-            .Select(n => ActivationFunction(n.Weight))
+            .Select(n => activation(n.Weight))
             .ToArray();
     }
 
