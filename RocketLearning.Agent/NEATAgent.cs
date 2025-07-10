@@ -24,9 +24,26 @@ public class NEATAgent : IAgent
             state.Terrain.PlatformX,
             state.Terrain.PlatformY
         };
+        
 
-        //var outputs = _network.FeedForward(inputs);
-
-        return RocketInput.None;
+        var outputs = _network.FeedForward(inputs);
+        var best = 0;
+        // safety measure 
+        if (outputs.Length != 3)
+            throw new InvalidOperationException("Expected exactly 3 output nodes.");
+        
+        for (var i = 0; i < outputs.Length; ++i)
+        {
+            if (outputs[i] > outputs[best])
+            {
+                best = i;
+            }
+        }
+        return best switch
+        {
+            0 => RocketInput.Left,
+            1 => RocketInput.Right,
+            _ => RocketInput.None
+        };
     }
 }
