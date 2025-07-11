@@ -18,11 +18,13 @@ public class Config
     //May change during the run of NEAT as sometimes it may be beneficial when MutationRate decreases over time 
     //Probability that a node will be added/removed 
     public double AddNodeRate = 0.1;
-    public double RemoveNodeRate = 0.1;    
+    public double RemoveNodeRate = 0.1;
+    public const double StartingConectionsRate = 0.3;
+    public double ReactivateRate = 0.17;
     
     //Connections
     //Probability that a connectino will be added/removed 
-    public double AddConnectionRate = 0.2;
+    public double AddConnectionRate = 0.05;
     public double RemoveConnectionRate = 0.2;
     
     

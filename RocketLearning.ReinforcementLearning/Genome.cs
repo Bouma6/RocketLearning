@@ -78,37 +78,42 @@ public class Genome
         //Add connections
         if (random.NextDouble() < config.AddConnectionRate)
         {
-            MutateConnectionsAdd(config, random);    
+            MutateConnectionsAdd(random);    
         }
-        //RemoveConnections
+        //Deactivate Connections
         if (random.NextDouble() < config.RemoveConnectionRate)
         {
             MutateConnectionsRemove(random);    
+        }
+        //Reactivate
+        if (random.NextDouble()<config.ReactivateRate)
+        {
+            MutateConnectionsReactivate(random);
         }
     }
     
     private void MutateWeights(Config config, Random random)
     {
-        foreach (var conection in Connections)
+        foreach (var connection in Connections)
         {
             if (random.NextDouble() < config.WeightMutateRate)
             {
                 //Replace weight by a completely new number 
                 if (random.NextDouble() < config.WeightChangeProbability)
                 {
-                    conection.Weight = RandomWeight(random);
+                    connection.Weight = RandomWeight(random);
                 }
                 //Change the weight by a small number 
                 else
                 {
                     double deltaWeight = GaussianRandom(random) * config.WeightMutatePower;
-                    conection.Weight = Clamp(conection.Weight + deltaWeight, Config.MaxWeight,Config.MinWeight);
+                    connection.Weight = Clamp(connection.Weight + deltaWeight, Config.MaxWeight,Config.MinWeight);
                 }
             }
 
             if (random.NextDouble() < Config.EnableConnectionRate)
             {
-                conection.Active = !conection.Active;   
+                connection.Active = !connection.Active;   
             }
         }
     }
@@ -131,29 +136,62 @@ public class Genome
         if (value.CompareTo(max) > 0) return max;
         return value;
     }
-    private void MutateConnectionsAdd(Config config, Random random)
+    private void MutateConnectionsReactivate(Random random)
     {
-        var nodeA = Nodes[random.Next(Nodes.Count)];
-        var nodeB = Nodes[random.Next(Nodes.Count)];
+        // Only attempt if there are inactive connections
+        var inactiveConnections = Connections.Where(c => !c.Active).ToList();
+        if (inactiveConnections.Count == 0) return;
+
+        var toReactivate = inactiveConnections[random.Next(inactiveConnections.Count)];
+        toReactivate.Active = true;
         
-        //Do not allow self connections or duplicate connections
-        if (nodeA.Id == nodeB.Id || Connections.Any(c => c.FromId == nodeA.Id && c.ToId == nodeB.Id))
-            return;
-        
-        var newConnection = new Connections
-        {
-            FromId = nodeA.Id,
-            ToId = nodeB.Id,
-            Weight = RandomWeight(random),
-            InnovationNumber = InnovationTracker.GetInnovationNumber(nodeA.Id, nodeB.Id),
-            Active = true
-        };
-        Connections.Add(newConnection);
     }
+
+    private void MutateConnectionsAdd(Random random)
+    {
+        const int maxAttempts = 4;
+
+        var fromCandidates = Nodes.Where(n =>
+            n.Type == NodeType.Input || n.Type == NodeType.Hidden || n.Type == NodeType.Bias).ToList();
+
+        var toCandidates = Nodes.Where(n =>
+            n.Type == NodeType.Hidden || n.Type == NodeType.Output).ToList();
+
+        if (fromCandidates.Count == 0 || toCandidates.Count == 0)
+            return;
+
+        for (int attempt = 0; attempt < maxAttempts; attempt++)
+        {
+            var from = fromCandidates[random.Next(fromCandidates.Count)];
+            var to = toCandidates[random.Next(toCandidates.Count)];
+
+            if (from.Id == to.Id || Connections.Any(c => c.FromId == from.Id && c.ToId == to.Id))
+                continue;
+            // Enforce direction rule from.Id < to.Id or to is output -just trying 
+            if (from.Id >= to.Id && to.Type != NodeType.Output)
+                continue;
+            Connections.Add(new Connections
+            {
+                FromId = from.Id,
+                ToId = to.Id,
+                Weight = RandomWeight(random),
+                InnovationNumber = InnovationTracker.GetInnovationNumber(from.Id, to.Id),
+                Active = true
+            });
+
+            return;
+        }
+    }
+
     private void MutateConnectionsRemove(Random random)
     {
-        if (Connections.Count == Config.MinimumConnections) return;
-        Connections.Remove(Connections[random.Next(Connections.Count)]);
+        // Only attempt if there are any active connections
+        var activeConnections = Connections.Where(c => c.Active).ToList();
+        if (activeConnections.Count == 0) return;
+
+        // Randomly deactivate one connection
+        var toDeactivate = activeConnections[random.Next(activeConnections.Count)];
+        toDeactivate.Active = false;
     }
     private void MutateNodesAdd(Random random)
     {
@@ -206,4 +244,4 @@ public class Genome
         //Remove all the connections going to and from the node
         Connections.RemoveAll(c=>c.FromId == nodeToRemove.Id||c.ToId == nodeToRemove.Id);
     }
-}
+}  
