@@ -24,18 +24,25 @@ public class Config
     
     //Connections
     //Probability that a connectino will be added/removed 
-    public double AddConnection = 0.2;
-    public double RemoveConnection = 0.2;
+    public double AddConnectionRate = 0.2;
+    public double RemoveConnectionRate = 0.2;
+    
+    
+    
     //Max/min weight of connections
-    public const double MaxValue = 30;
-    public const double MinValue = -30;
+    public const double MaxWeight = 30;
+    public const double MinWeight = -30;
     //When a weight mutates what is the maximum factor the weight can mutate by +-(random number from gaussian distribution * connection Mutate Power )
-    public const double ConnectionMutatePower = 0.5;
+    public double WeightMutatePower = 0.5;
+    //Weight mutation rate
+    public double WeightMutateRate = 0.5;
     //Completely new number will be generated 
-    public const double ConnectionChangeProbability = 0.1;
+    public double WeightChangeProbability = 0.1;
+    //Minimum connections
+    public const int MinimumConnections = 2;
     
     //enable/disable connection probability 
-    public const double EnableConnectionProbability = 0.01;
+    public const double EnableConnectionRate = 0.01;
     
     //How many of the best individuals from previous generation you want to survive into the next generation.
     public int Elitism = 3; 
@@ -47,7 +54,8 @@ public class Config
     //PARA
     public bool Parallel = true;
     //After how many generations all the threads should wait for each other to redistribute the individuals
-    public int SynchronizationLength = 10;
+    //Do not be a dick and make it a divisor of Number of Generations 
+    public const int SynchronizationLength = 10;
     public int Cores = Environment.ProcessorCount;
     
     
