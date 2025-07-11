@@ -6,7 +6,7 @@ public class GameState
 {
     public Rocket Rocket { get; private set; } = new();
     public Terrain Terrain { get; private set; } = new();
-
+    public double DeltaTime { get; } = 1.0 / 60;
     public double Score { get; private set; } = 0;
     public double Time { get; private set; } = 0;
 

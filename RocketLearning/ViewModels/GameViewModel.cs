@@ -35,10 +35,12 @@ public class GameViewModel : ViewModelBase
     public double RightFlagX => PlatformX + PlatformWidth - 60;
     public double FlagY => PlatformY - 30;
 
-    public GameViewModel(MainWindowViewModel main, bool useNEAT = false)
+    public GameViewModel(MainWindowViewModel main, bool useNeat = false)
     {
         _main = main;
-        //_agent = useNEAT ? new NEATAgent(NeatLoader.LoadBestNetwork()) : new HumanAgent();
+        //NeatLoader - have to be implemented
+        //Load from probably Master Trainer or from somewhere where the best NN will be store idk 
+        //_agent = useNeat ? new NeatAgent(NeatLoader.LoadBestNetwork()) : new HumanAgent();
         _agent = new HumanAgent();
         _state.OnStateChanged += () =>
         {
