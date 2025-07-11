@@ -12,10 +12,8 @@ public class Config
     
     
     //ID of output layer nodes and bias node 
+    public const int OutputNodesId = 1000;
     public const int BiasNodeId = 999;
-    public const int OutputLeftId = 1000;
-    public const int OutputRightId = 1001;
-    public const int OutputNoneId = 1002;
     
     //May change during the run of NEAT as sometimes it may be beneficial when MutationRate decreases over time 
     //Probability that a node will be added/removed 
