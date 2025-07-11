@@ -1,6 +1,7 @@
 ﻿using System;
 
 namespace RocketLearning.ReinforcementLearning;
+public delegate double FitnessEvaluatorDelegate(NeuralNetwork network);
 
 public class Trainer
 {
@@ -11,9 +12,9 @@ public class Trainer
     
     private Config _config;
 
-    private readonly Func<NeuralNetwork, double> _evaluate;
+    private readonly FitnessEvaluatorDelegate _evaluate;
     public SelectionDelegate Selector= Config.Selection;
-    public Trainer(List<Genome> originalPopulation, Func<NeuralNetwork, double> evaluate,Config config ,int seed = 42)
+    public Trainer(List<Genome> originalPopulation, FitnessEvaluatorDelegate evaluate,Config config ,int seed = 42)
     {
         _config = config;
         _evaluate = evaluate;
