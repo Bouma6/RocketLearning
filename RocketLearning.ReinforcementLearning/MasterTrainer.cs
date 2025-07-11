@@ -6,6 +6,9 @@ public class MasterTrainer
     private readonly Config _config = new Config();
 
     private readonly List<Trainer> _trainers = [];
+    private readonly int _cores;
+    private readonly int _perCore;
+    private readonly FitnessEvaluatorDelegate _evaluator;
 
     public MasterTrainer(FitnessEvaluatorDelegate fitnessEvaluator)
     {
@@ -35,6 +38,19 @@ public class MasterTrainer
 
     private void SynchronizePopulations()
     {
+        var allGenomes = _trainers.SelectMany(t => t.Population).ToList();
+        var newGenomes = Config.Selection(allGenomes,allGenomes.Count,_random);
+        
+        for (int i = 0; i < _trainers.Count; i++)
+        {
+            var slice = newGenomes
+                .Skip(i * _perCore)
+                .Take(_perCore)
+                .Select(g => g.Clone())
+                .ToList();
+
+            _trainers[i].Population = slice;
+        }
         
     }
     private void InitializePopulation(int genomeCount)
@@ -82,6 +98,4 @@ public class MasterTrainer
             _trainers.Add(trainer);
         }
     }
-    
-    
 }
