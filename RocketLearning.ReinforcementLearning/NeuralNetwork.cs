@@ -5,18 +5,25 @@
 //Add Trainer to evolve networks
 
 //Selections   DONE 
-//evaluation function - connect it to the game if possible xd somehow
-//Trainer 
-//Genome copy function
-//All the fucking mutations 
+//Innovation Numbers tracker DONE 
+//evaluation function - connect it to the game if possible xd somehow DONE i hope 
+
+//Trainer DONE 
+
+//Genome copy function DONE 
+//All the fucking mutations DONE 
+
 //MEGA trainer ? 
 //Para :(
+//Cross Over
+
 //Add buttons that will allow show and training (Maybe training menu to set up parameters?)
 //Test it. 
 //Hope for 45 KB
 
 namespace RocketLearning.ReinforcementLearning;
 using System;
+
 public class NeuralNetwork(ActivationDelegate activation)
 {
     public List<Node> Nodes = [];

@@ -3,15 +3,8 @@ using RocketLearning.ReinforcementLearning;
 
 namespace RocketLearning.Agent;
 
-public class NEATAgent : IAgent
+public class NeatAgent(NeuralNetwork network) : IAgent
 {
-    private readonly NeuralNetwork _network;
-
-    public NEATAgent(NeuralNetwork network)
-    {
-        _network = network;
-    }
-
     public RocketInput Decide(GameState state)
     {
         var inputs = new[]
@@ -26,7 +19,7 @@ public class NEATAgent : IAgent
         };
         
 
-        var outputs = _network.FeedForward(inputs);
+        var outputs = network.FeedForward(inputs);
         var best = 0;
         // safety measure 
         if (outputs.Length != 3)
