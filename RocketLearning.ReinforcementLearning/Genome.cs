@@ -66,12 +66,12 @@ public class Genome
         //Add nodes
         if (random.NextDouble() < config.AddNodeRate)
         {
-            MutateNodesAdd(config, random);
+            MutateNodesAdd(random);
         }
         //Remove nodes    
         if (random.NextDouble() < config.RemoveNodeRate)
         {
-            MutateNodesRemove(config, random);
+            MutateNodesRemove(random);
         }
         
         //3 - Mutate Connections
@@ -155,13 +155,55 @@ public class Genome
         if (Connections.Count == Config.MinimumConnections) return;
         Connections.Remove(Connections[random.Next(Connections.Count)]);
     }
-    private void MutateNodesAdd(Config config, Random random)
+    private void MutateNodesAdd(Random random)
     {
+        // Find a connection we can split and add a node in middle of 
+        var availableNodes = Connections.Where(c=>c.Active).ToList();
+        if (availableNodes.Count == 0) return;
         
+        var connection = availableNodes[random.Next(availableNodes.Count)];
+        connection.Active = false;
+        
+        // Create a node with new NodeId
+        int newNodeId = NodeIdGenerator.GetNextNodeId();
+        Nodes.Add( new Node
+        {
+            Id = newNodeId,
+            Type = NodeType.Hidden
+        });
+
+        var newConnection1 = new Connections
+        {
+            FromId = connection.FromId,
+            ToId = newNodeId,
+            Weight = 1,
+            Active = true,
+            InnovationNumber = InnovationTracker.GetInnovationNumber(connection.FromId, newNodeId)
+        };
+        
+        var newConnection2 = new Connections
+        {
+            FromId = newNodeId,
+            ToId = connection.ToId,
+            //Do not lose the information about the weight
+            Weight = connection.Weight,
+            Active = true,
+            InnovationNumber = InnovationTracker.GetInnovationNumber(newNodeId, connection.ToId)
+        };
+        Connections.Add(newConnection1);
+        Connections.Add(newConnection2);
     }
-    private void MutateNodesRemove(Config config, Random random)
+    private void MutateNodesRemove(Random random)
     {
+        //Remove only a hidden node - Removing input , output or bias node would break the NN
+        var availableNodes = Nodes.Where(n =>n.Type == NodeType.Hidden).ToList();
+        if (availableNodes.Count == 0) return;
         
+        //Pick one and remove it 
+        var nodeToRemove = availableNodes[random.Next(availableNodes.Count)];
+        Nodes.Remove(nodeToRemove);
+        
+        //Remove all the connections going to and from the node
+        Connections.RemoveAll(c=>c.FromId == nodeToRemove.Id||c.ToId == nodeToRemove.Id);
     }
-    
 }
