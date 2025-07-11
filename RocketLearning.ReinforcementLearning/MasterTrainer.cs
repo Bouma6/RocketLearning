@@ -9,10 +9,11 @@ public class MasterTrainer
 
     public MasterTrainer(FitnessEvaluatorDelegate fitnessEvaluator)
     {
-        List<Genome> fullPopulation = initializePopulation(Config.PopulationSize);
+        InitializePopulation(Config.PopulationSize);
         
-        int cores = _config.Cores;
-        int perCore = fullPopulation.Count / cores;
+        _cores = _config.Cores;
+        _perCore = Config.PopulationSize / _cores;
+        _evaluator = fitnessEvaluator;
 
         for (int i = 0; i < cores;i++)
         {
@@ -28,7 +29,17 @@ public class MasterTrainer
 
     public void Run(int generation = Config.NumberOfIterations)
     {
-        
+        int syncEvery = Config.SynchronizationLength;
+        int syncSteps = generation / syncEvery;
+
+        for (int i = 0; i < syncSteps; i++)
+        {
+            Parallel.ForEach(_trainers, trainer =>
+            {
+                trainer.RunGenerations(syncEvery);
+            });
+            SynchronizePopulations();
+        }
     }
 
     private void SynchronizePopulations()
