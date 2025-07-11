@@ -21,7 +21,7 @@ public class Trainer
         Population = originalPopulation;
     }
 
-    public void RunGeneration()
+    private void RunGeneration()
     {
         //Get fitness of each genome
         foreach (var genome in Population)
@@ -52,13 +52,17 @@ public class Trainer
         
         //CrossOver of the offsprings
         //Overload it, so I can call it on list in Genome after done with mutation 
-        var crossover =offspring.CrossOver(_config, _random);
+        //var crossover =offspring.CrossOver(_config, _random);
         
         
         Population = elites.Concat(offspring).ToList();
         Generation++;
     }
-}
-
-
+    
+    public void RunGenerations(int count =Config.SynchronizationLength){
+        for (int i = 0; i < count; i++)
+        {
+            RunGeneration();
+        }
+    }
 }
