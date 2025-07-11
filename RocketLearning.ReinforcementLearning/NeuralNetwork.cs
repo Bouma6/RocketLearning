@@ -2,21 +2,18 @@
 //Add a FeedForward method & test it DONE 
 //Add a Genome class (basic structure) DONE 
 //Use network in NEATAgent DONE 
-//Add Trainer to evolve networks
-
+//Add Trainer to evolve networks DONE 
 //Selections   DONE 
 //Innovation Numbers tracker DONE 
-//evaluation function - connect it to the game if possible xd somehow DONE i hope 
-
+//evaluation function - connect it to the game if possible xd somehow DONE
 //Trainer DONE 
-
 //Genome copy function DONE 
 //All the fucking mutations DONE 
+//MEGA trainer DONE  
+//Para :( DONE 
 
-//MEGA trainer ? 
-//Para :(
+//Add random connections when initialization 
 //Cross Over
-
 //Add buttons that will allow show and training (Maybe training menu to set up parameters?)
 //Test it. 
 //Hope for 45 KB
