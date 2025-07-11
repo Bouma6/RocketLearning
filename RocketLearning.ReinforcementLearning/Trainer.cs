@@ -5,7 +5,7 @@ public delegate double FitnessEvaluatorDelegate(NeuralNetwork network);
 
 public class Trainer
 {
-    private List<Genome> Population { get; set; }
+    public List<Genome> Population { get; set; }
     
     private readonly Random _random;
     public int Generation { get; private set; } = 0;
