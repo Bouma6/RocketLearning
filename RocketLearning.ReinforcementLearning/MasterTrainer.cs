@@ -85,6 +85,25 @@ public class MasterTrainer
                     Type = NodeType.Output,
                 });
             }
+            // Create a Few Random edges 
+            for (var j = 0; j < Config.InputSize; j++)
+            {
+                for (var k = 0; k < Config.OutputSize; k++)
+                {
+                    if (Random.Shared.NextDouble() < Config.StartingConectionsRate)
+                    {
+                        newGenome.Connections.Add(new Connections
+                        {
+                            FromId = j,
+                            ToId = k+Config.OutputNodesId,
+                            // random weight -1 - 1
+                            Weight = Random.Shared.NextDouble() * 2 - 1,
+                            Active = true,
+                            InnovationNumber = InnovationTracker.GetInnovationNumber(j, k+Config.OutputNodesId)
+                        });
+                    }
+                }
+            }
             population.Add(newGenome);
         }
         for (int i = 0; i < _cores;i++)

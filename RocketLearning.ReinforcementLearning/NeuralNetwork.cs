@@ -11,9 +11,12 @@
 //All the fucking mutations DONE 
 //MEGA trainer DONE  
 //Para :( DONE 
+//update Mutation - deactivating edges not removing them like an idiot  DONE
+//Add random connections when initialization DONE  
 
-//Add random connections when initialization 
+
 //Cross Over
+
 //Add buttons that will allow show and training (Maybe training menu to set up parameters?)
 //Test it. 
 //Hope for 45 KB
