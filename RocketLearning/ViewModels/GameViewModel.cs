@@ -39,9 +39,8 @@ public class GameViewModel : ViewModelBase
     {
         _main = main;
         //NeatLoader - have to be implemented
-        //Load from probably Master Trainer or from somewhere where the best NN will be store idk 
-        //_agent = useNeat ? new NeatAgent(NeatLoader.LoadBestNetwork()) : new HumanAgent();
-        _agent = new HumanAgent();
+        //Load from probably Master Trainer or from somewhere where the best NN will be store
+        _agent = useNeat ? new NeatAgent(main.Trainer.BestNetwork) : new HumanAgent();
         _state.OnStateChanged += () =>
         {
             OnPropertyChanged(nameof(RocketPositionX));

@@ -11,7 +11,7 @@ public class MainWindowViewModel : ViewModelBase
     public double SessionBestScore { get; private set; } = 0;
     public double AllTimeBestScore { get; private set; }
     public ICommand StartCommand { get; }
-    private MasterTrainer _trainer = new MasterTrainer(network => Agent.GameEvaluator.EvaluateNetwork(network));
+    public readonly MasterTrainer Trainer = new(network => Agent.GameEvaluator.EvaluateNetwork(network));
     public MainWindowViewModel()
     {
         StartCommand = new RelayCommand(StartGame);
@@ -35,7 +35,7 @@ public class MainWindowViewModel : ViewModelBase
     }
     public void StartTraining()
     {
-        _trainer.Run();
+        Trainer.Run();
     }
 
     public void ReportScore(double score)
