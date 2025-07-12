@@ -24,14 +24,15 @@ public class Trainer
 
     private void RunGeneration()
     {
-        //Get fitness of each genome
+        Console.WriteLine($"Generating: {Generation} ");
+        //1. Get fitness of each genome
         foreach (var genome in Population)
         {
             var network = genome.BuildNeuralNetwork(Config.Activation);
             genome.Fitness = _evaluate(network);
         }
         
-        //Elitism - pick _config.Elitism the best individuals that will automatically survive to the next generation
+        //2. Elitism - pick _config.Elitism the best individuals that will automatically survive to the next generation
         //This way we never lose the best
         var elites = Population
             .OrderByDescending(g => g.Fitness)
@@ -39,22 +40,28 @@ public class Trainer
             .Select(g =>g.Clone())
             .ToList();
         
-        //Select the rest of the population using Selector
+        //3. Select the rest of the population using Selector
         var remaining = Config.PopulationSize-_config.Elitism;
         var selected = Selector(Population,remaining,_random);
         
-        //Clone and mutate the selected offsprings
-        var offspring = selected.Select(parent =>
+        //4. CrossOver and Mutation
+        //Later on speciation of crossover 
+        List<Genome> offspring = [];
+        foreach (var child1 in selected)
         {
-            var child = parent.Clone();
-            child.Mutate(_config, _random);
-            return child;
-        }).ToList();
-        
-        //CrossOver of the offsprings
-        //Overload it, so I can call it on list in Genome after done with mutation 
-        //var crossover =offspring.CrossOver(_config, _random);
-        
+            Genome newGenome;
+            var child2 = selected[_random.Next(selected.Count)];
+            if (_random.NextDouble() < _config.CrossOverRate && !ReferenceEquals(child1, child2))
+            {
+                newGenome = Genome.Crossover(child1, child2, _random);
+            }
+            else
+            {
+                newGenome = child1.Clone();
+            }
+            newGenome.Mutate(_config,_random);
+            offspring.Add(newGenome);
+        }
         
         Population = elites.Concat(offspring).ToList();
         Generation++;
