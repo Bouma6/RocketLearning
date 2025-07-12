@@ -9,6 +9,9 @@ public class MasterTrainer
     private readonly int _cores;
     private readonly int _perCore;
     private readonly FitnessEvaluatorDelegate _evaluator;
+    private Genome? BestGenome { get; set; }
+    public NeuralNetwork BestNetwork => BestGenome?.BuildNeuralNetwork(Config.Activation)!;
+
 
     public MasterTrainer(FitnessEvaluatorDelegate fitnessEvaluator)
     {
@@ -17,21 +20,21 @@ public class MasterTrainer
         _cores = _config.Cores;
         _perCore = Config.PopulationSize / _cores;
         _evaluator = fitnessEvaluator;
-
-
     }
 
     public void Run(int generation = Config.NumberOfIterations)
     {
         int syncEvery = Config.SynchronizationLength;
         int syncSteps = generation / syncEvery;
-
+        Console.WriteLine("zaciname");
         for (int i = 0; i < syncSteps; i++)
         {
+            Console.WriteLine("je to pici");
             Parallel.ForEach(_trainers, trainer =>
             {
                 trainer.RunGenerations(syncEvery);
             });
+            UpdateBestGenome();
             SynchronizePopulations();
         }
     }
@@ -117,4 +120,17 @@ public class MasterTrainer
             _trainers.Add(trainer);
         }
     }
+    private void UpdateBestGenome()
+    {
+        var best = _trainers
+            .SelectMany(t => t.Population)
+            .OrderByDescending(g => g.Fitness)
+            .FirstOrDefault();
+
+        if (best != null && (BestGenome == null || best.Fitness > BestGenome.Fitness))
+        {
+            BestGenome = best.Clone();
+        }
+    }
+    
 }
