@@ -244,4 +244,71 @@ public class Genome
         //Remove all the connections going to and from the node
         Connections.RemoveAll(c=>c.FromId == nodeToRemove.Id||c.ToId == nodeToRemove.Id);
     }
+
+    private static Genome Crossover(Genome parent1, Genome parent2, Random random)
+    {
+        var (fitter, weaker) = parent1.Fitness>parent2.Fitness 
+            ?(parent1, parent2)
+            :(parent2, parent1);
+        
+        var newChild = new Genome();
+        
+        var parentWeakConnection = weaker.Connections.ToDictionary(c=>c.InnovationNumber);
+
+        foreach (var gene in fitter.Connections)
+        {
+            Connections childGene;
+            if (parentWeakConnection.TryGetValue(gene.InnovationNumber, out var matchingGene))
+            {
+                //Randomly choose from either parent matching gene
+                childGene = random.NextDouble() < 0.5 ? CloneConnection(gene) : CloneConnection(matchingGene);
+
+                // If either parent has disabled this connection, randomly disable it
+                if (!gene.Active || !matchingGene.Active)
+                {
+                    childGene.Active = !(random.NextDouble() < 0.75);
+                }
+            }
+            else
+            {
+                childGene = CloneConnection(gene);
+            }
+            newChild.Connections.Add(childGene);
+        }
+        
+        // Build a set of used node IDs
+        var usedNodeIds = new HashSet<int>();
+        foreach (var c in newChild.Connections)
+        {
+            usedNodeIds.Add(c.FromId);
+            usedNodeIds.Add(c.ToId);
+        }
+        var allNodes = parent1.Nodes.Concat(parent2.Nodes).DistinctBy(n => n.Id);
+
+        foreach (var node in allNodes)
+        {
+            if (usedNodeIds.Contains(node.Id))
+            {
+                newChild.Nodes.Add(new Node
+                {
+                    Id = node.Id,
+                    Type = node.Type,
+                    Weight = 0
+                });
+            }
+        }
+        return newChild;
+    }
+
+    private static Connections CloneConnection(Connections original)
+    {
+        return new Connections
+        {
+            FromId = original.FromId,
+            ToId = original.ToId,
+            Weight = original.Weight,
+            InnovationNumber = original.InnovationNumber,
+            Active = original.Active
+        };
+    }
 }  
