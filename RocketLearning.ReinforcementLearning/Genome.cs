@@ -245,7 +245,7 @@ public class Genome
         Connections.RemoveAll(c=>c.FromId == nodeToRemove.Id||c.ToId == nodeToRemove.Id);
     }
 
-    private static Genome Crossover(Genome parent1, Genome parent2, Random random)
+    public static Genome Crossover(Genome parent1, Genome parent2, Random random)
     {
         var (fitter, weaker) = parent1.Fitness>parent2.Fitness 
             ?(parent1, parent2)

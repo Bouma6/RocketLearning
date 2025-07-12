@@ -38,21 +38,20 @@ public class Config
     public double WeightMutateRate = 0.5;
     //Completely new number will be generated 
     public double WeightChangeProbability = 0.1;
-    //Minimum connections
-    public const int MinimumConnections = 2;
     
     //enable/disable connection probability 
     public const double EnableConnectionRate = 0.01;
     
     //How many of the best individuals from previous generation you want to survive into the next generation.
     public int Elitism = 3; 
+    //The Rate of how many of the offsprings will be created by crossover and how many will be kept untouched 
+    public double CrossOverRate = 0.7;
     
     //Activation function - any function from ActivationFunction can be chosen ,or you can add a new one that you prefer
     public static ActivationDelegate Activation = ActivationFunction.Sigmoid;
     public static SelectionDelegate Selection = SelectionFunction.RouletteSelection;
     
     //PARA
-    public bool Parallel = true;
     //After how many generations all the threads should wait for each other to redistribute the individuals
     //Do not be a dick and make it a divisor of Number of Generations 
     public const int SynchronizationLength = 10;
