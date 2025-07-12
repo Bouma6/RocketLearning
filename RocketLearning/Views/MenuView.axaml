@@ -8,12 +8,14 @@
         <Image Source="avares://RocketLearning/Assets/Background.png"
                Stretch="Fill"
                Grid.RowSpan="2"/>
+        
         <TextBlock Text=" Rocket Learning "
                    FontSize="100"
                    FontWeight="Bold"
                    HorizontalAlignment="Center"
                    Margin="0,40,0,20"
                    Grid.Row="0" />
+        
         <StackPanel Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="20" Spacing="5">
             <TextBlock Text="{Binding PersistentBestScore, StringFormat=All-time Best: {0:F2}}"
                        FontSize="24" Foreground="White"/>
@@ -26,6 +28,8 @@
                     VerticalAlignment="Center"
                     Spacing="15">
             <Button Content="Play" Width="200" Command="{Binding StartCommand}"/>
+            <Button Content="Play (NEAT)" Width="200" Command="{Binding StartCommandNeat}"/>
+            <Button Content="Start Training" Width="200" Command="{Binding StartTrainingCommand}"/>
         </StackPanel>
     </Grid>
 </UserControl>

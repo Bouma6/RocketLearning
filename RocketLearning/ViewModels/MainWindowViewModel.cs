@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Windows.Input;
+using RocketLearning.ReinforcementLearning;
 
 namespace RocketLearning.ViewModels;
 
@@ -10,6 +11,7 @@ public class MainWindowViewModel : ViewModelBase
     public double SessionBestScore { get; private set; } = 0;
     public double AllTimeBestScore { get; private set; }
     public ICommand StartCommand { get; }
+    private MasterTrainer _trainer = new MasterTrainer(network => Agent.GameEvaluator.EvaluateNetwork(network));
     public MainWindowViewModel()
     {
         StartCommand = new RelayCommand(StartGame);
@@ -30,6 +32,10 @@ public class MainWindowViewModel : ViewModelBase
     {
         get => _currentView;
         set => SetProperty(ref _currentView, value);
+    }
+    public void StartTraining()
+    {
+        _trainer.Run();
     }
 
     public void ReportScore(double score)
