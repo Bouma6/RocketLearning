@@ -2,9 +2,9 @@ using System;
 
 namespace RocketLearning.Game;
 
-public class GameState
+public class GameState(double spawnX)
 {
-    public Rocket Rocket { get; private set; } = new();
+    public Rocket Rocket { get; private set; } = new(spawnX);
     public Terrain Terrain { get; private set; } = new();
     public double DeltaTime { get; } = 1.0 / 60;
     public double Score { get; private set; } = 0;
@@ -17,8 +17,8 @@ public class GameState
     public event Action? OnStateChanged;
 
     private const int VelocityPunishment = 20;
-    private const int AnglePunishment = 50;
-    private const int TimePunishment = 3;
+    private const int AnglePunishment = 20;
+    private const int TimePunishment = 2;
 
     public void Tick(RocketInput input, double deltaTime)
     {
@@ -37,7 +37,8 @@ public class GameState
 
     public void Reset()
     {
-        Rocket = new Rocket();
+        double spawn = Random.Shared.Next(200,1400);
+        Rocket = new Rocket(spawn);
         Terrain = new Terrain();
         Time = 0;
         Score = 0;
@@ -77,26 +78,33 @@ public class GameState
             return;
 
         GameOver = true;
+        EvaluateLanding(result);
 
-        if (result == RocketStates.LandedInbound)
+    }
+    //Score the landing - take into account constant  angle, landing velocity, landing X coordinate,punishment(the longer it took the less score)
+    //Score is bounded in -1000 and 1000 
+    private void EvaluateLanding(RocketStates result)
+    {
+        switch (result)
         {
-            Landed = true;
-            Score += 1000;
-        }
-        else if (result == RocketStates.LandedOutbound)
-        {
-            Landed = true;
-            Score += 250 - Math.Abs(Rocket.PositionX - 900);
-        }
-        else
-        {
-            Crashed = true;
-            Score -= 800;
+            case RocketStates.LandedInbound:
+                Landed = true;
+                Score += 1000;
+                break;
+            case RocketStates.LandedOutbound:
+                Landed = true;
+                Score += 250 - Math.Abs(Rocket.PositionX - 900);
+                break;
+            default:
+                Crashed = true;
+                Score -= 800;
+                break;
         }
 
         Score -= Math.Abs(Rocket.VelocityX) * VelocityPunishment;
         Score -= Math.Abs(Rocket.VelocityY) * VelocityPunishment;
         Score -= Math.Abs(Rocket.Angle) * AnglePunishment;
-        
+        Score = Math.Max(-1000, Score);
+
     }
 }

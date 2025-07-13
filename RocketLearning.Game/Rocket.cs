@@ -1,12 +1,12 @@
 namespace RocketLearning.Game;
 //TO DO: Game object from which Rocket inherits and Games physics which apply to all game objects
-public class Rocket
+public class Rocket(double spawnX)
 {
     private const double AngleChange = 3;
     private const double EnginePower = 0.75;//0.75
     private const double Gravity = 0.04;//0.04
 
-    public double PositionX { get; private set; } = 200.0 + new Random().NextDouble() * 1200.0;
+    public double PositionX { get; private set; } = spawnX;
     public double PositionY { get; private set; } = 700.0 + new Random().NextDouble() * 100.0;
     public double VelocityX { get; private set; }
     public double VelocityY { get; private set; }

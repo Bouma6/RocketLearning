@@ -7,15 +7,20 @@ public static class GameEvaluator
 {
     public static double EvaluateNetwork(NeuralNetwork network, int maxTicks = 10_000, double deltaTime = 1f / 60)
     {
-        var agent = new NeatAgent(network);
-        var game = new GameState();
-
-        for (int i = 0; i < maxTicks && !game.GameOver; i++)
+        double[] spawnPoints = [200, 500, 800, 1100, 1400];
+        double finalScore = 0;
+        foreach (var spawnPoint in spawnPoints)
         {
-            var input = agent.Decide(game);
-            game.Tick(input, deltaTime);
-        }
+            var agent = new NeatAgent(network);
+            var game = new GameState(spawnPoint);
 
-        return game.Score;
+            for (var i = 0; i < maxTicks && !game.GameOver; i++)
+            {
+                var input = agent.Decide(game);
+                game.Tick(input, deltaTime);
+            }
+            finalScore += game.Score;
+        }
+        return finalScore /spawnPoints.Length;
     }
 }

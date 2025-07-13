@@ -14,8 +14,6 @@ public class NeatAgent(NeuralNetwork network) : IAgent
             state.Rocket.Angle,
             state.Rocket.VelocityX,
             state.Rocket.VelocityY,
-            state.Terrain.PlatformX,
-            state.Terrain.PlatformY
         };
         
 

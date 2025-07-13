@@ -3,12 +3,12 @@ namespace RocketLearning.ReinforcementLearning;
 public class Config
 {
     //Input output sizes 
-    public const int InputSize = 7;
+    public const int InputSize = 5;
     public const int OutputSize = 3;
     
     //Population
-    public const int PopulationSize = 800;
-    public const int NumberOfIterations = 500;
+    public const int PopulationSize = 400;
+    public const int NumberOfIterations = 100;
     
     
     //ID of output layer nodes and bias node 

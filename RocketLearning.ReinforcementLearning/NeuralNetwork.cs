@@ -1,9 +1,5 @@
-
 //Test it. 
 //CrossOver improvements 
-
-//spawning not above the landing 
-//check if I test fitness even if I already have one 
 
 namespace RocketLearning.ReinforcementLearning;
 using System;

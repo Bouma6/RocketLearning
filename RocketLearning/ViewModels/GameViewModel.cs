@@ -10,7 +10,8 @@ namespace RocketLearning.ViewModels;
 public class GameViewModel : ViewModelBase
 {
     private readonly MainWindowViewModel _main;
-    private readonly GameState _state = new();
+
+    private readonly GameState _state;
     private readonly IAgent _agent;
     private readonly DispatcherTimer _timer;
 
@@ -38,8 +39,7 @@ public class GameViewModel : ViewModelBase
     public GameViewModel(MainWindowViewModel main, bool useNeat = false)
     {
         _main = main;
-        //NeatLoader - have to be implemented
-        //Load from probably Master Trainer or from somewhere where the best NN will be store
+        _state = new GameState(Random.Shared.Next(200,1400));
         _agent = useNeat ? new NeatAgent(main.Trainer.BestNetwork) : new HumanAgent();
         _state.OnStateChanged += () =>
         {
