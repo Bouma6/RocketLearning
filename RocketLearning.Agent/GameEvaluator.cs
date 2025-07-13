@@ -7,6 +7,7 @@ public static class GameEvaluator
 {
     public static double EvaluateNetwork(NeuralNetwork network, int maxTicks = 10_000, double deltaTime = 1f / 60)
     {
+        //Spawn values at which the NN will be evaluated
         double[] spawnPoints = [200, 500, 800, 1100, 1400];
         double finalScore = 0;
         foreach (var spawnPoint in spawnPoints)

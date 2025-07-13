@@ -1,6 +1,3 @@
-//Test it. 
-//CrossOver improvements 
-
 namespace RocketLearning.ReinforcementLearning;
 using System;
 
@@ -17,42 +14,44 @@ public class NeuralNetwork(ActivationDelegate activation)
         if (outputCount != Config.OutputSize)
         {
             throw new InvalidOperationException(
-                $"[FeedForward] Expected {Config.OutputSize} output nodes, but found {outputCount}.\n" +
+                $"Expected {Config.OutputSize} output nodes, but found {outputCount}.\n" +
                 $"Node IDs: {string.Join(", ", Nodes.Select(n => $"(ID: {n.Id}, Type: {n.Type})"))}"
             );
         }
 
         var nodeMap = Nodes.ToDictionary(n => n.Id);
-        int inputIndex = 0;
+        var inputIndex = 0;
+        
         foreach (Node node in Nodes)
         {
-            if (node.Type == NodeType.Input)
+            switch (node.Type)
             {
-                node.Weight = inputValues[inputIndex++];
-            }
-            else if (node.Type == NodeType.Bias)
-            {
-                node.Weight = 1;
-            }
-            else
-            {
-                node.Weight = 0;
+                case NodeType.Input:
+                    node.Weight = inputValues[inputIndex++];
+                    break;
+                case NodeType.Bias:
+                    node.Weight = 1;
+                    break;
+                default:
+                    node.Weight = 0;
+                    break;
             }
         }
 
         var sorted = TopologicalSort();
+        //Knowing that the graph is topologically sorted we can go straight through it and calculate the weights of all the nodes 
         foreach (var node in sorted)
         {
             foreach (var connection in Connections)
             {
                 if (connection.Active && connection.FromId ==node.Id)
                 {
-                    //var target = Nodes.First(n => n.Id == connection.ToId);
                     var target = nodeMap[connection.ToId];
                     target.Weight += node.Weight* connection.Weight;
                 }
             }
         }
+        //Keep only output Nodes
         var outputValues = Nodes
             .Where(n => n.Type == NodeType.Output)
             .Select(n => activation(n.Weight))
@@ -63,16 +62,15 @@ public class NeuralNetwork(ActivationDelegate activation)
         return outputValues;
     }
 
-
+    //Make the graph topologically sorted and oriented such that we do not encounter any circular references 
     private List<Node> TopologicalSort()
     {
         var nodeMap = Nodes.ToDictionary(n => n.Id);
         var incomingEdges = Nodes.ToDictionary(n => n.Id, _ => 0);
 
-        foreach (var connection in Connections)
+        foreach (var connection in Connections.Where(connection => connection.Active))
         {
-            if (connection.Active)
-                incomingEdges[connection.ToId]++;
+            incomingEdges[connection.ToId]++;
         }
 
         var queue = new Queue<Node>(
@@ -92,7 +90,7 @@ public class NeuralNetwork(ActivationDelegate activation)
             {
                 if (!conn.Active || conn.FromId != current.Id) continue;
 
-                int toId = conn.ToId;
+                var toId = conn.ToId;
                 incomingEdges[toId]--;
 
                 if (incomingEdges[toId] == 0 && !visited.Contains(toId))
@@ -101,13 +99,6 @@ public class NeuralNetwork(ActivationDelegate activation)
                 }
             }
         }
-        // Some invalid nodes are still getting through 
-        // Try to make it such that no cyclic or unreached nodes even get in here 
-        if (sorted.Count != Nodes.Count)
-        {
-            //Console.WriteLine("There are some nodes that are either unreachable or not in the graph.");
-        }
-        
         return sorted;
     }
 }

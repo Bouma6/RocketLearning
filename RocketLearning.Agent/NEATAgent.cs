@@ -7,6 +7,7 @@ public class NeatAgent(NeuralNetwork network) : IAgent
 {
     public RocketInput Decide(GameState state)
     {
+        // When adding more inputs do not forget to also adjust in the config file numberOfInputs
         var inputs = new[]
         {
             state.Rocket.PositionX,
@@ -16,7 +17,7 @@ public class NeatAgent(NeuralNetwork network) : IAgent
             state.Rocket.VelocityY,
         };
         
-
+        // Let the NN chose the best action to take
         var outputs = network.FeedForward(inputs);
         var best = 0;
         // safety measure 

@@ -1,5 +1,4 @@
 namespace RocketLearning.Game;
-//TO DO: Game object from which Rocket inherits and Games physics which apply to all game objects
 public class Rocket(double spawnX)
 {
     private const double AngleChange = 3;
@@ -22,12 +21,14 @@ public class Rocket(double spawnX)
         ApplyThrust(false);
     }
 
+    //If you want to also add the option of going straight up and not having to use left or right motor - just using main motor in middle not changing the angle
     public void Motor()
     {
         var radians = Angle * (Math.PI / 180);
         VelocityX += Math.Sin(radians) * EnginePower;
         VelocityY += Math.Cos(radians) * EnginePower;
     }
+    //Usage of the left or right motor - the rocket always tilts one way or another 
     private void ApplyThrust(bool left)
     {
         Angle = left ? Angle-AngleChange : Angle + AngleChange;
@@ -35,6 +36,8 @@ public class Rocket(double spawnX)
         VelocityX += Math.Sin(radians) * EnginePower;
         VelocityY += Math.Cos(radians) * EnginePower;
     }
+    // Real world physics effect on the rocket. 
+    // Rocket starts to fall and lose speed 
     public void Tick()
     {
         VelocityY -= Gravity;

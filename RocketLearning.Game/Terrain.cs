@@ -10,11 +10,7 @@ public class Terrain
     public double PlatformY { get;} = 210;
     public double PlatformWidth { get;} = 250;
     public double PlatformHeight { get;} = 10;
-
-    // For drawing
-    public (double X, double Y, double Width, double Height) GetPlatformRect()
-        => (PlatformX, PlatformY, PlatformWidth, PlatformHeight);
-
+    
     // For collision
     public RocketStates CheckLanding(Rocket rocket)
     {
