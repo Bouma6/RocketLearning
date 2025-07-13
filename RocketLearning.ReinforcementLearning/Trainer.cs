@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace RocketLearning.ReinforcementLearning;
+﻿namespace RocketLearning.ReinforcementLearning;
 public delegate double FitnessEvaluatorDelegate(NeuralNetwork network);
 
 public class Trainer
@@ -8,9 +6,10 @@ public class Trainer
     public List<Genome> Population { get; set; }
     
     private readonly Random _random;
-    public int Generation { get; private set; } = 0;
+    private int Generation { get; set; }
     
     private Config _config;
+    private List<Species> _species = [];
 
     private readonly FitnessEvaluatorDelegate _evaluate;
     public SelectionDelegate Selector= Config.Selection;
@@ -31,22 +30,36 @@ public class Trainer
             var network = genome.BuildNeuralNetwork(Config.Activation);
             genome.Fitness = _evaluate(network);
         }
+        //2.Speciation
+        SpeciatePopulation();
         
-        //2. Elitism - pick _config.Elitism the best individuals that will automatically survive to the next generation
+        //3. Elitism - pick _config.Elitism the best individuals that will automatically survive to the next generation
         //This way we never lose the best
+        //Elitism that pick the best out of each species 
+        List<Genome> elites = new();
+        foreach (var species in _species)
+        {
+            var top = species.Members.OrderByDescending(g => g.Fitness).First();
+            elites.Add(top.Clone());
+        }
+        
+        //Normal elitism
+        /*
         var elites = Population
             .OrderByDescending(g => g.Fitness)
             .Take(_config.Elitism)
             .Select(g =>g.Clone())
             .ToList();
+        */
         
-        //3. Select the rest of the population using Selector
-        var remaining = Config.PopulationSize-_config.Elitism;
-        var selected = Selector(Population,remaining,_random);
+        //4. Select the rest of the population using Selector
+        var remaining = Config.PopulationSize-elites.Count;
+        //var selected = Selector(Population,remaining,_random);
         
-        //4. CrossOver and Mutation
-        //Later on speciation of crossover 
+        //5. CrossOver and Mutation
+        
         List<Genome> offspring = [];
+        /*
         foreach (var child1 in selected)
         {
 
@@ -64,10 +77,43 @@ public class Trainer
             //var newGenome = child1.Clone();
             newGenome.Mutate(_config,_random);
             offspring.Add(newGenome);
-            
 
         }
+        */
         
+        
+        // Calculate adjusted fitness 
+        var adjustedSpecies = _species.Select(s =>
+        {
+            var totalFitness = s.Members.Sum(m => m.Fitness);
+            return (Species: s, Fitness: totalFitness);
+        }).ToList();
+
+        double fitnessSum = adjustedSpecies.Sum(t => t.Fitness);
+
+        foreach (var (species, fitness) in adjustedSpecies)
+        {
+            int offspringCount = (int)Math.Round((fitness / fitnessSum) * remaining);
+
+            for (int i = 0; i < offspringCount; i++)
+            {
+                var parent1 = species.Members[_random.Next(species.Members.Count)];
+                Genome child;
+
+                if (_random.NextDouble() < _config.CrossOverRate)
+                {
+                    var parent2 = species.Members[_random.Next(species.Members.Count)];
+                    child = Genome.Crossover(parent1, parent2, _random);
+                }
+                else
+                {
+                    child = parent1.Clone();
+                }
+
+                child.Mutate(_config, _random);
+                offspring.Add(child);
+            }
+        }
         Population = elites.Concat(offspring).ToList();
         Generation++;
     }
@@ -78,5 +124,29 @@ public class Trainer
         {
             RunGeneration();
         }
+    }
+
+    private void SpeciatePopulation()
+    {
+        _species.Clear();
+        foreach (var genome in Population)
+        {
+            bool added = false;
+            foreach (var species in _species)
+            {
+                if (genome.DistanceTo(species.Representative) < Config.SpeciationThreshold)
+                {
+                    species.AddMember(genome);
+                    added = true;
+                    break;
+                }
+            }
+
+            if (!added)
+            {
+                _species.Add(new Species(genome));
+            }
+        }
+        
     }
 }
