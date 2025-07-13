@@ -59,7 +59,8 @@ public class Config
     //Activation function - any function from ActivationFunction can be chosen ,or you can add a new one that you prefer
     public static ActivationDelegate Activation = ActivationFunction.Sigmoid;
     public static SelectionDelegate Selection = SelectionFunction.RouletteSelection;
-    
+
+    public const bool SpeciateActive = true;
     //PARA
     //After how many generations all the threads should wait for each other to redistribute the individuals
     //Do not be a dick and make it a divisor of Number of Generations 
