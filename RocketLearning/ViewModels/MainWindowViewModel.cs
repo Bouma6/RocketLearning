@@ -12,12 +12,14 @@ public class MainWindowViewModel : ViewModelBase
     public double AllTimeBestScore { get; private set; }
     public ICommand StartCommand { get; }
     public readonly MasterTrainer Trainer = new(network => Agent.GameEvaluator.EvaluateNetwork(network));
+
     public MainWindowViewModel()
     {
         StartCommand = new RelayCommand(StartGame);
         CurrentView = new MenuViewModel(this);
         LoadBestScore();
     }
+
     private void LoadBestScore()
     {
         if (File.Exists(BestScorePath) && double.TryParse(File.ReadAllText(BestScorePath), out double score))
@@ -28,11 +30,13 @@ public class MainWindowViewModel : ViewModelBase
     {
         File.WriteAllText(BestScorePath, AllTimeBestScore.ToString("F2"));
     }
+
     public object CurrentView
     {
         get => _currentView;
         set => SetProperty(ref _currentView, value);
     }
+
     public void StartTraining()
     {
         Trainer.Run();
@@ -49,6 +53,7 @@ public class MainWindowViewModel : ViewModelBase
             SaveBestScore();
         }
     }
+
     private void StartGame()
     {
         CurrentView = new GameViewModel(this);

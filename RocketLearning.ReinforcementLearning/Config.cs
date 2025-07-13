@@ -60,7 +60,7 @@ public class Config
     public static ActivationDelegate Activation = ActivationFunction.Sigmoid;
     public static SelectionDelegate Selection = SelectionFunction.RouletteSelection;
 
-    public const bool SpeciateActive = true;
+    public const bool SpeciateActive = false;
     //PARA
     //After how many generations all the threads should wait for each other to redistribute the individuals
     //Do not be a dick and make it a divisor of Number of Generations 
