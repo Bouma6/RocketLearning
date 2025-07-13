@@ -4,7 +4,7 @@ public class Genome
 {
     public List<Node> Nodes = [];
     public List<Connections> Connections = [];
-    public double Fitness = 0;
+    public double Fitness;
     
     
     //Build Neural Network from the genome, nodes and connections are copied 
@@ -308,8 +308,6 @@ public class Genome
 
         return newChild;
     }
-
-
     private static Connections CloneConnection(Connections original)
     {
         return new Connections
@@ -321,4 +319,59 @@ public class Genome
             Active = original.Active
         };
     }
+    // c1 = excess gene coefficient
+    // c2 = disjoint gene coefficient
+    // c3 = average weight difference coefficient
+    public double DistanceTo(Genome other, double c1 = 1.0, double c2 = 1.0, double c3 = 0.4)
+    {
+        var thisGenes = Connections.ToDictionary(c => c.InnovationNumber);
+        var otherGenes = other.Connections.ToDictionary(c => c.InnovationNumber);
+        
+        // Combine all innovation numbers from both genomes
+        var allInnovations = new HashSet<int>(thisGenes.Keys);
+        allInnovations.UnionWith(otherGenes.Keys);
+
+        int matching = 0;
+        double weightDiffSum = 0;
+
+        int disjoint = 0;
+        int excess = 0;
+
+        int maxInnov1 = thisGenes.Keys.Count > 0 ? thisGenes.Keys.Max() : -1;
+        int maxInnov2 = otherGenes.Keys.Count > 0 ? otherGenes.Keys.Max() : -1;
+
+        foreach (var innov in allInnovations)
+        {
+            bool in1 = thisGenes.TryGetValue(innov, out var gene1);
+            bool in2 = otherGenes.TryGetValue(innov, out var gene2);
+
+            if (in1 && in2)
+            {
+                matching++;
+                weightDiffSum += Math.Abs(gene1!.Weight - gene2!.Weight);
+            }
+            else
+            {
+                // Check for excess genes
+                bool isExcess = (in1 && innov > maxInnov2) || (in2 && innov > maxInnov1);
+                if (isExcess)
+                    excess++;
+                else
+                    disjoint++;
+            }
+        }
+        
+        // Normalize by genome size to avoid penalizing small genomes too harshly
+        int n = Math.Max(thisGenes.Count, otherGenes.Count);
+        if (n < 20) n = 1;
+        
+        
+        // Calculate average weight difference of matching genes
+
+        double avgWeightDiff = matching > 0 ? weightDiffSum / matching : 0.0;
+        
+        // Compute genetic distance using NEAT formula:
+        return (c1 * excess / n) + (c2 * disjoint / n) + (c3 * avgWeightDiff);
+    }
+
 }  
