@@ -10,32 +10,48 @@ public static class SelectionFunction
     //If any fitness is negative returns RandomSelection
     public static List<Genome> RouletteSelection(List<Genome> input, int populationSize, Random random)
     {
-        List<Genome> output = [];
-        double totalWeight = 0;
-        //Check whether all fitness scores are non-negative (negative fitness does not work for roulette selection) 
-        for (var i = 0; i < populationSize; i++)
+        var output = new List<Genome>();
+        double totalFitness = 0;
+
+        if (input.Count == 0) return output;
+
+        // Check for invalid fitness values
+        foreach (var genome in input)
         {
-            var fitness = input[i].Fitness;
-            if (fitness < 0)
-            {
-                return RandomSelection(input, populationSize, random);    
-            }
-            totalWeight += fitness;
+            if (genome.Fitness < 0)
+                return RandomSelection(input, populationSize, random);
+
+            totalFitness += genome.Fitness;
         }
-        for (var i = 0; i < populationSize; i++)
+
+        if (totalFitness == 0)
+            return RandomSelection(input, populationSize, random);
+
+        for (int i = 0; i < populationSize; i++)
         {
-            double pick = random.NextDouble() * totalWeight;
+            double pick = random.NextDouble() * totalFitness;
             double cumulative = 0;
+
             foreach (var genome in input)
             {
                 cumulative += genome.Fitness;
-                if (!(cumulative <= pick)) continue;
-                output.Add(genome);
-                break;
+                if (cumulative >= pick)
+                {
+                    output.Add(genome);
+                    break;
+                }
+            }
+
+            // In case of floating-point error and no selection was made
+            if (output.Count < i + 1)
+            {
+                output.Add(input[random.Next(input.Count)]);
             }
         }
+
         return output;
     }
+
     //Randomly chose tournamentSize individuals pick the best of them.
     //Usually the best option - fitness function can be negative and outliers are not a problem as well 
     public static List<Genome> TournamentSelection(List<Genome> input, int populationSize, Random random,int tournamentSize =3)
