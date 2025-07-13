@@ -247,47 +247,37 @@ public class Genome
 
     public static Genome Crossover(Genome parent1, Genome parent2, Random random)
     {
-        var (fitter, weaker) = parent1.Fitness>parent2.Fitness 
-            ?(parent1, parent2)
-            :(parent2, parent1);
-        
-        var newChild = new Genome();
-        
-        var parentWeakConnection = weaker.Connections.ToDictionary(c=>c.InnovationNumber);
+        var (fitter, weaker) = parent1.Fitness > parent2.Fitness
+            ? (parent1, parent2)
+            : (parent2, parent1);
 
+        var newChild = new Genome();
+        var weakConnections = weaker.Connections.ToDictionary(c => c.InnovationNumber);
+
+        // 1. Inherit connections
         foreach (var gene in fitter.Connections)
         {
             Connections childGene;
-            if (parentWeakConnection.TryGetValue(gene.InnovationNumber, out var matchingGene))
+            if (weakConnections.TryGetValue(gene.InnovationNumber, out var matchingGene))
             {
-                //Randomly choose from either parent matching gene
                 childGene = random.NextDouble() < 0.5 ? CloneConnection(gene) : CloneConnection(matchingGene);
 
-                // If either parent has disabled this connection, randomly disable it
                 if (!gene.Active || !matchingGene.Active)
-                {
                     childGene.Active = !(random.NextDouble() < 0.75);
-                }
             }
             else
             {
                 childGene = CloneConnection(gene);
             }
+
             newChild.Connections.Add(childGene);
         }
-        
-        // Build a set of used node IDs
-        var usedNodeIds = new HashSet<int>();
-        foreach (var c in newChild.Connections)
-        {
-            usedNodeIds.Add(c.FromId);
-            usedNodeIds.Add(c.ToId);
-        }
-        var allNodes = parent1.Nodes.Concat(parent2.Nodes).DistinctBy(n => n.Id);
 
+        // 2. Add input, output, and bias nodes exactly once
+        var allNodes = parent1.Nodes.Concat(parent2.Nodes).DistinctBy(n => n.Id).ToList();
         foreach (var node in allNodes)
         {
-            if (usedNodeIds.Contains(node.Id))
+            if (node.Type == NodeType.Input || node.Type == NodeType.Output || node.Type == NodeType.Bias)
             {
                 newChild.Nodes.Add(new Node
                 {
@@ -297,8 +287,28 @@ public class Genome
                 });
             }
         }
+
+        // 3. Add used hidden nodes only
+        var usedNodeIds = newChild.Connections
+            .SelectMany(c => new[] { c.FromId, c.ToId })
+            .ToHashSet();
+
+        foreach (var node in allNodes)
+        {
+            if (node.Type == NodeType.Hidden && usedNodeIds.Contains(node.Id))
+            {
+                newChild.Nodes.Add(new Node
+                {
+                    Id = node.Id,
+                    Type = node.Type,
+                    Weight = 0
+                });
+            }
+        }
+
         return newChild;
     }
+
 
     private static Connections CloneConnection(Connections original)
     {
