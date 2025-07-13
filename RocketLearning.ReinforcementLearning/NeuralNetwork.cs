@@ -1,25 +1,9 @@
-//Create a clean NeuralNetwork class (no game logic) DONE 
-//Add a FeedForward method & test it DONE 
-//Add a Genome class (basic structure) DONE 
-//Use network in NEATAgent DONE 
-//Add Trainer to evolve networks DONE 
-//Selections   DONE 
-//Innovation Numbers tracker DONE 
-//evaluation function - connect it to the game if possible xd somehow DONE
-//Trainer DONE 
-//Genome copy function DONE 
-//All the fucking mutations DONE 
-//MEGA trainer DONE  
-//Para :( DONE 
-//update Mutation - deactivating edges not removing them like an idiot  DONE
-//Add random connections when initialization DONE  
 
-
-//Cross Over
-
-//Add buttons that will allow show and training (Maybe training menu to set up parameters?)
 //Test it. 
-//Hope for 45 KB
+//CrossOver improvements 
+
+//spawning not above the landing 
+//check if I test fitness even if I already have one 
 
 namespace RocketLearning.ReinforcementLearning;
 using System;
@@ -31,6 +15,17 @@ public class NeuralNetwork(ActivationDelegate activation)
 
     public double[] FeedForward(double[] inputValues)
     {
+        
+        // Validate expected output nodes
+        int outputCount = Nodes.Count(n => n.Type == NodeType.Output);
+        if (outputCount != Config.OutputSize)
+        {
+            throw new InvalidOperationException(
+                $"[FeedForward] Expected {Config.OutputSize} output nodes, but found {outputCount}.\n" +
+                $"Node IDs: {string.Join(", ", Nodes.Select(n => $"(ID: {n.Id}, Type: {n.Type})"))}"
+            );
+        }
+
         var nodeMap = Nodes.ToDictionary(n => n.Id);
         int inputIndex = 0;
         foreach (Node node in Nodes)
@@ -58,14 +53,18 @@ public class NeuralNetwork(ActivationDelegate activation)
                 {
                     //var target = Nodes.First(n => n.Id == connection.ToId);
                     var target = nodeMap[connection.ToId];
-                    target.Weight += activation(node.Weight* connection.Weight);
+                    target.Weight += node.Weight* connection.Weight;
                 }
             }
         }
-        return Nodes
+        var outputValues = Nodes
             .Where(n => n.Type == NodeType.Output)
             .Select(n => activation(n.Weight))
             .ToArray();
+        if (outputValues.Length != Config.OutputSize)
+            throw new InvalidOperationException($"Expected {Config.OutputSize} outputs but got {outputValues.Length}");
+
+        return outputValues;
     }
 
 
@@ -110,8 +109,9 @@ public class NeuralNetwork(ActivationDelegate activation)
         // Try to make it such that no cyclic or unreached nodes even get in here 
         if (sorted.Count != Nodes.Count)
         {
-            Console.WriteLine("There are some nodes that are either unreachable or not in the graph.");
+            //Console.WriteLine("There are some nodes that are either unreachable or not in the graph.");
         }
+        
         return sorted;
     }
 }

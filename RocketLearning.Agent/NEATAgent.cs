@@ -23,7 +23,7 @@ public class NeatAgent(NeuralNetwork network) : IAgent
         var best = 0;
         // safety measure 
         if (outputs.Length != 3)
-            throw new InvalidOperationException("Expected exactly 3 output nodes.");
+            throw new InvalidOperationException($"Expected exactly 3 output nodes but got {outputs.Length}.");
         
         for (var i = 0; i < outputs.Length; ++i)
         {

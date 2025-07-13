@@ -97,6 +97,6 @@ public class GameState
         Score -= Math.Abs(Rocket.VelocityX) * VelocityPunishment;
         Score -= Math.Abs(Rocket.VelocityY) * VelocityPunishment;
         Score -= Math.Abs(Rocket.Angle) * AnglePunishment;
-        Score = Math.Max(Score, 10);
+        
     }
 }
