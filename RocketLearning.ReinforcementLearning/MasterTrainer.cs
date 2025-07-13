@@ -60,7 +60,7 @@ public class MasterTrainer
             .OrderByDescending(g => g.Fitness)
             .FirstOrDefault();
 
-        if (best != null && (BestGenome == null || best.Fitness > BestGenome.Fitness))
+        if (best != null && (best.Fitness > BestGenome.Fitness))
         {
             BestGenome = best.Clone();
         }

@@ -24,7 +24,7 @@ public class Trainer
 
     private void RunGeneration()
     {
-        Console.WriteLine($"Generating: {Generation} ");
+        Console.WriteLine($"Gen:{Generation} ");
         //1. Get fitness of each genome
         foreach (var genome in Population)
         {
@@ -49,7 +49,7 @@ public class Trainer
         List<Genome> offspring = [];
         foreach (var child1 in selected)
         {
-            /*
+
             Genome newGenome;
             var child2 = selected[_random.Next(selected.Count)];
             if (_random.NextDouble() < _config.CrossOverRate && !ReferenceEquals(child1, child2))
@@ -60,8 +60,8 @@ public class Trainer
             {
                 newGenome = child1.Clone();
             }
-            */
-            var newGenome = child1.Clone();
+
+            //var newGenome = child1.Clone();
             newGenome.Mutate(_config,_random);
             offspring.Add(newGenome);
             
