@@ -7,8 +7,8 @@ public class Config
     public const int OutputSize = 3;
     
     //Population
-    public const int PopulationSize = 400;
-    public const int NumberOfIterations = 100;
+    public const int PopulationSize = 600;
+    public const int NumberOfIterations = 250;
     
     
     //ID of output layer nodes and bias node 
@@ -28,6 +28,15 @@ public class Config
     public double RemoveConnectionRate = 0.2;
     
     
+    //Distance Function
+    // c1 = excess gene coefficient
+    // c2 = disjoint gene coefficient
+    // c3 = average weight difference coefficient
+    public const double ExcessGeneCoefficient = 1;
+    public const double DisjointGeneCoefficient = 1;
+    public const double AverageWeightDifferenceCoefficient = 0.4;
+    
+    public const double SpeciationThreshold = 3.0;
     
     //Max/min weight of connections
     public const double MaxWeight = 30;

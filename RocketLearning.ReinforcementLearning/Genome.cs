@@ -319,10 +319,8 @@ public class Genome
             Active = original.Active
         };
     }
-    // c1 = excess gene coefficient
-    // c2 = disjoint gene coefficient
-    // c3 = average weight difference coefficient
-    public double DistanceTo(Genome other, double c1 = 1.0, double c2 = 1.0, double c3 = 0.4)
+
+    public double DistanceTo(Genome other)
     {
         var thisGenes = Connections.ToDictionary(c => c.InnovationNumber);
         var otherGenes = other.Connections.ToDictionary(c => c.InnovationNumber);
@@ -371,7 +369,8 @@ public class Genome
         double avgWeightDiff = matching > 0 ? weightDiffSum / matching : 0.0;
         
         // Compute genetic distance using NEAT formula:
-        return (c1 * excess / n) + (c2 * disjoint / n) + (c3 * avgWeightDiff);
+        return (Config.ExcessGeneCoefficient * excess / n) + (Config.DisjointGeneCoefficient * disjoint / n) + (Config.AverageWeightDifferenceCoefficient * avgWeightDiff);
     }
+
 
 }  
