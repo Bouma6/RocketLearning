@@ -14,7 +14,8 @@ public class MasterTrainer
     private readonly int _cores;
     private readonly int _perCore;
 
-    public Genome BestGenome { get; private set; } = new();
+    public Genome BestGenome { get; private set; } = new Genome{Fitness = double.NegativeInfinity};
+    
     public NeuralNetwork BestNetwork => BestGenome?.BuildNeuralNetwork(Config.Activation);
 
     public MasterTrainer(FitnessEvaluatorDelegate fitnessEvaluator)
@@ -50,6 +51,10 @@ public class MasterTrainer
             SynchronizePopulations();
 
             Console.WriteLine($"Best score so far: {BestGenome?.Fitness:F2}");
+            if (BestGenome == null)
+            {
+                Console.WriteLine($"No generations so far.");
+            }
         }
     }
 
@@ -57,9 +62,10 @@ public class MasterTrainer
     {
         var best = _trainers
             .SelectMany(t => t.Population)
+            .Where(g => g.Fitness !=0)
             .OrderByDescending(g => g.Fitness)
             .FirstOrDefault();
-
+        Console.WriteLine($"Best score of this generation {best?.Fitness:F2}");
         if (best != null && (best.Fitness > BestGenome.Fitness))
         {
             BestGenome = best.Clone();
@@ -124,7 +130,7 @@ public class MasterTrainer
             {
                 for (int k = 0; k < Config.OutputSize; k++)
                 {
-                    if (Random.Shared.NextDouble() < Config.StartingConectionsRate)
+                    if (Random.Shared.NextDouble() < Config.StartingConnectionsRate)
                     {
                         newGenome.Connections.Add(new Connections
                         {
@@ -153,3 +159,7 @@ public class MasterTrainer
         }
     }
 }
+
+
+
+

@@ -4,7 +4,7 @@ public class Genome
 {
     public List<Node> Nodes = [];
     public List<Connections> Connections = [];
-    public double Fitness;
+    public double Fitness { get; set; }
     
     
     //Build Neural Network from the genome, nodes and connections are copied 

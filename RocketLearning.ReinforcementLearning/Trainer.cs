@@ -29,7 +29,9 @@ public class Trainer
         {
             var network = genome.BuildNeuralNetwork(Config.Activation);
             genome.Fitness = _evaluate(network);
+            if (genome.Fitness == 0) Console.WriteLine($"Fitness:{genome.Fitness}");
         }
+        
         
         //2. Elitism - pick _config.Elitism the best individuals that will automatically survive to the next generation
         //This way we never lose the best
@@ -124,7 +126,6 @@ public class Trainer
     }
     
     public void RunGenerations(int count =Config.SynchronizationLength){
-        Console.WriteLine("We are in a trainer");
         for (int i = 0; i < count; i++)
         {
             RunGeneration();

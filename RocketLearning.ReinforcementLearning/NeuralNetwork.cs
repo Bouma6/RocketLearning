@@ -56,9 +56,6 @@ public class NeuralNetwork(ActivationDelegate activation)
             .Where(n => n.Type == NodeType.Output)
             .Select(n => activation(n.Weight))
             .ToArray();
-        if (outputValues.Length != Config.OutputSize)
-            throw new InvalidOperationException($"Expected {Config.OutputSize} outputs but got {outputValues.Length}");
-
         return outputValues;
     }
 
