@@ -93,18 +93,18 @@ public class GameState(double spawnX)
                 break;
             case RocketStates.LandedOutbound:
                 Landed = true;
-                Score += 250 - Math.Abs(Rocket.PositionX - 900);
+                Score += 250 - 5*Math.Abs(Rocket.PositionX - 900);
                 break;
             default:
                 Crashed = true;
-                Score -= 800;
+                Score += 200 - 5*Math.Abs(Rocket.PositionX - 900);
                 break;
         }
 
         Score -= Math.Abs(Rocket.VelocityX) * VelocityPunishment;
         Score -= Math.Abs(Rocket.VelocityY) * VelocityPunishment;
         Score -= Math.Abs(Rocket.Angle) * AnglePunishment;
-        Score = Math.Max(-1000, Score);
+        Score = Math.Max(-2000, Score);
 
     }
 }

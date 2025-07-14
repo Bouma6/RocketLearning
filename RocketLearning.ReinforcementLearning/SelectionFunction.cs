@@ -54,8 +54,9 @@ public static class SelectionFunction
 
     //Randomly chose tournamentSize individuals pick the best of them.
     //Usually the best option - fitness function can be negative and outliers are not a problem as well 
-    public static List<Genome> TournamentSelection(List<Genome> input, int populationSize, Random random,int tournamentSize =3)
+    public static List<Genome> TournamentSelection(List<Genome> input, int populationSize, Random random)
     {
+        int tournamentSize = 3;
         List<Genome> output = [];
         for (var i = 0; i < populationSize; i++)
         {

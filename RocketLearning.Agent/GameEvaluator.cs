@@ -20,6 +20,7 @@ public static class GameEvaluator
                 var input = agent.Decide(game);
                 game.Tick(input, deltaTime);
             }
+
             finalScore += game.Score;
         }
         return finalScore /spawnPoints.Length;

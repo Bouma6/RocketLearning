@@ -10,20 +10,20 @@ public class NeatAgent(NeuralNetwork network) : IAgent
         // When adding more inputs do not forget to also adjust in the config file numberOfInputs
         var inputs = new[]
         {
-            state.Rocket.PositionX,
-            state.Rocket.PositionY,
-            state.Rocket.Angle,
-            state.Rocket.VelocityX,
-            state.Rocket.VelocityY,
+            (state.Rocket.PositionX-800)/800,
+            (state.Rocket.PositionY-450)/450,
+            (state.Rocket.Angle-9)/9,
+            (state.Rocket.VelocityX-200)/200,
+            (state.Rocket.VelocityY-200)/200,
         };
         
         // Let the NN chose the best action to take
         var outputs = network.FeedForward(inputs);
-        var best = 0;
+        
         // safety measure 
         if (outputs.Length != 3)
             throw new InvalidOperationException($"Expected exactly 3 output nodes but got {outputs.Length}.");
-        
+        var best = 0;
         for (var i = 0; i < outputs.Length; ++i)
         {
             if (outputs[i] > outputs[best])
