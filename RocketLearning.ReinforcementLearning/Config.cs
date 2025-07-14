@@ -8,7 +8,7 @@ public class Config
     
     //Population
     public const int PopulationSize = 600;
-    public const int NumberOfIterations = 400;
+    public const int NumberOfIterations = 250;
     
     
     //ID of output layer nodes and bias node 
