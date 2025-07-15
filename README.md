@@ -53,3 +53,4 @@ In NEAT library in files config.cs you can configure the NEAT.
 It is possible to create your own agent and test it how good it performs in the game. 
 - You will just need to create agent implementing interface IAgent with method RocketInput Decide(GameState state);
 - In game state you will be supplied with all the information about the game and based on this you will need to return one of the RocketInputs(LeftMotor,None,RightMotor)
+<img src="Images/Screenshot 2025-07-14 at 10.29.57.png" alt="App Screenshot" width="1600"/>
