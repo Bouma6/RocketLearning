@@ -22,6 +22,8 @@ public class HumanAgent : IAgent
                 return RocketInput.Left;
             case Key.Right:
                 return RocketInput.Right;
+            case Key.Up:
+                return RocketInput.Up;
             default:
                 return RocketInput.None;
         }

@@ -21,7 +21,7 @@ public class NeatAgent(NeuralNetwork network) : IAgent
         var outputs = network.FeedForward(inputs);
         
         // safety measure 
-        if (outputs.Length != 3)
+        if (outputs.Length != 4)
             throw new InvalidOperationException($"Expected exactly 3 output nodes but got {outputs.Length}.");
         var best = 0;
         for (var i = 0; i < outputs.Length; ++i)
@@ -35,6 +35,7 @@ public class NeatAgent(NeuralNetwork network) : IAgent
         {
             0 => RocketInput.Left,
             1 => RocketInput.Right,
+            2 => RocketInput.Up,
             _ => RocketInput.None
         };
     }

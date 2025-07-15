@@ -4,11 +4,11 @@ public class Config
 {
     //Input output sizes 
     public const int InputSize = 5;
-    public const int OutputSize = 3;
+    public const int OutputSize = 4;
     
     //Population
     public const int PopulationSize = 600;
-    public const int NumberOfIterations = 250;
+    public const int NumberOfIterations = 150;
     
     
     //ID of output layer nodes and bias node 
@@ -62,7 +62,6 @@ public class Config
     public const bool SpeciateActive = false;
     //PARA
     //After how many generations all the threads should wait for each other to redistribute the individuals
-    //Do not be a dick and make it a divisor of Number of Generations 
     public const int SynchronizationLength = 25;
     public int Cores = 8;
 }

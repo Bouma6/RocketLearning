@@ -59,6 +59,9 @@ public class GameState(double spawnX)
             case RocketInput.Right:
                 Rocket.RightMotor();
                 break;
+            case RocketInput.Up:
+                Rocket.Motor();
+                break;
         }
     }
 
