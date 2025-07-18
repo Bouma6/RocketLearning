@@ -30,7 +30,10 @@ public class MainWindowViewModel : ViewModelBase
     {
         File.WriteAllText(BestScorePath, AllTimeBestScore.ToString("F2"));
     }
-
+    public void LoadSavedNetwork()
+    {
+        Trainer.LoadBestGenome();
+    }
     public object CurrentView
     {
         get => _currentView;

@@ -13,4 +13,5 @@ public class MenuViewModel(MainWindowViewModel main) : ViewModelBase
     public ICommand StartCommand { get; } = new RelayCommand(() => main.CurrentView = new GameViewModel(main, false));
     public ICommand StartCommandNeat { get; } = new RelayCommand(() => main.CurrentView = new GameViewModel(main, true));
     public ICommand StartTrainingCommand { get; } = new RelayCommand(main.StartTraining);
+    public ICommand LoadSavedNetworkCommand { get; } = new RelayCommand(main.LoadSavedNetwork);
 }

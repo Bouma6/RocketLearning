@@ -153,6 +153,5 @@ public class Trainer
                 _species.Add(new Species(genome));
             }
         }
-        
     }
 }

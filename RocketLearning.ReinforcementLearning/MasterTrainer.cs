@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text.Json;
 
 namespace RocketLearning.ReinforcementLearning;
 
@@ -13,6 +10,7 @@ public class MasterTrainer
     private readonly FitnessEvaluatorDelegate _evaluator;
     private readonly int _cores;
     private readonly int _perCore;
+    private const string SavedGenomePath = "RocketLearningNN_lastest.json";
 
     public Genome BestGenome { get; private set; } = new Genome{Fitness = double.NegativeInfinity};
     
@@ -43,7 +41,7 @@ public class MasterTrainer
             var tasks = _trainers.Select(trainer =>
                 Task.Run(() => trainer.RunGenerations(syncEvery))
             ).ToArray();
-
+            
             Task.WaitAll(tasks);
 
             // Update best genome & synchronize population
@@ -55,9 +53,25 @@ public class MasterTrainer
             {
                 Console.WriteLine($"No generations so far.");
             }
+            // Save best genome at the end
+            SaveBestGenome();
         }
     }
 
+    private void SaveBestGenome()
+    {
+        if (double.IsNegativeInfinity(BestGenome.Fitness)) return;
+        var json = JsonSerializer.Serialize(BestGenome);
+        File.WriteAllText(SavedGenomePath, json);
+        
+    }
+    public void LoadBestGenome()
+    {
+        if (!File.Exists(SavedGenomePath)) return;
+
+        var json = File.ReadAllText(SavedGenomePath);
+        BestGenome = JsonSerializer.Deserialize<Genome>(json)!;
+    }
     private void UpdateBestGenome()
     {
         var best = _trainers

@@ -30,6 +30,7 @@
             <Button Content="Play" Width="200" Command="{Binding StartCommand}"/>
             <Button Content="Play (NEAT)" Width="200" Command="{Binding StartCommandNeat}"/>
             <Button Content="Start Training" Width="200" Command="{Binding StartTrainingCommand}"/>
+            <Button Content="Load Last NN" Width="200" Command="{Binding LoadSavedNetworkCommand}"/>
         </StackPanel>
     </Grid>
 </UserControl>
