@@ -7,6 +7,8 @@
         <entry key="RocketLearning/Views/GameView.axaml" value="RocketLearning/RocketLearning.csproj" />
         <entry key="RocketLearning/Views/MainWindow.axaml" value="RocketLearning/RocketLearning.csproj" />
         <entry key="RocketLearning/Views/MenuView.axaml" value="RocketLearning/RocketLearning.csproj" />
+        <entry key="RocketLearning/Views/TrainingProgresView.axaml" value="RocketLearning/RocketLearning.csproj" />
+        <entry key="RocketLearning/Views/TrainingProgressView.axaml" value="RocketLearning/RocketLearning.csproj" />
       </map>
     </option>
   </component>

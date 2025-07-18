@@ -1,0 +1,13 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:RocketLearning.ViewModels"
+             x:Class="RocketLearning.Views.TrainingProgressView"
+             x:DataType="vm:TrainingProgressViewModel">
+
+    <Border Background="White" CornerRadius="10" Padding="20" Width="350" Height="120">
+        <StackPanel Spacing="10">
+            <TextBlock Text="Training in Progress..." FontSize="20" HorizontalAlignment="Center"/>
+            <ProgressBar Minimum="0" Maximum="1" Value="{Binding Progress}" Height="20" />
+        </StackPanel>
+    </Border>
+</UserControl>

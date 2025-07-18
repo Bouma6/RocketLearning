@@ -12,7 +12,7 @@ public class MasterTrainer
     private readonly int _perCore;
     private const string SavedGenomePath = "RocketLearningNN_lastest.json";
 
-    public Genome BestGenome { get; private set; } = new Genome{Fitness = double.NegativeInfinity};
+    private Genome BestGenome { get; set; } = new Genome{Fitness = double.NegativeInfinity};
     
     public NeuralNetwork BestNetwork => BestGenome?.BuildNeuralNetwork(Config.Activation);
 
@@ -26,49 +26,40 @@ public class MasterTrainer
         InitializePopulation(Config.PopulationSize);
     }
 
-    public void Run(int generation = Config.NumberOfIterations)
+    public void Run(Action<double>? reportProgress = null, int generation = Config.NumberOfIterations)
     {
         int syncEvery = Config.SynchronizationLength;
         int syncSteps = generation / syncEvery;
 
-        Console.WriteLine($"Starting training for {generation} generations in {syncSteps} sync steps...");
-
         for (int i = 0; i < syncSteps; i++)
         {
-            Console.WriteLine($"Running sync step {i + 1}/{syncSteps}");
+            Parallel.ForEach(_trainers, trainer =>
+            {
+                trainer.RunGenerations(syncEvery);
+            });
 
-            // Run each trainer in parallel
-            var tasks = _trainers.Select(trainer =>
-                Task.Run(() => trainer.RunGenerations(syncEvery))
-            ).ToArray();
-            
-            Task.WaitAll(tasks);
-
-            // Update best genome & synchronize population
             UpdateBestGenome();
             SynchronizePopulations();
 
-            Console.WriteLine($"Best score so far: {BestGenome?.Fitness:F2}");
-            if (BestGenome == null)
-            {
-                Console.WriteLine($"No generations so far.");
-            }
-            // Save best genome at the end
-            SaveBestGenome();
+            // Report progress back to UI
+            reportProgress?.Invoke((i + 1) / (double)syncSteps);
         }
+        SaveBestGenome();
     }
+
 
     private void SaveBestGenome()
     {
         if (double.IsNegativeInfinity(BestGenome.Fitness)) return;
         var json = JsonSerializer.Serialize(BestGenome);
         File.WriteAllText(SavedGenomePath, json);
+        Console.WriteLine("Best genome saved");
         
     }
     public void LoadBestGenome()
     {
         if (!File.Exists(SavedGenomePath)) return;
-
+        Console.WriteLine("Loading best genome");
         var json = File.ReadAllText(SavedGenomePath);
         BestGenome = JsonSerializer.Deserialize<Genome>(json)!;
     }

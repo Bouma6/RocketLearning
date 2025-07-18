@@ -8,6 +8,14 @@
         CanResize="False"
         WindowStartupLocation="CenterScreen"
         Title="Rocket Learning">
-    
-    <ContentControl Content="{Binding CurrentView}" />
+
+    <Grid>
+        <!-- Main View -->
+        <ContentControl Content="{Binding CurrentView}" />
+
+        <!-- Overlay Training Progress Popup -->
+        <Border Background="#80000000" IsVisible="{Binding IsTrainingPopupVisible}">
+            <views:TrainingProgressView DataContext="{Binding TrainingProgress}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </Border>
+    </Grid>
 </Window>

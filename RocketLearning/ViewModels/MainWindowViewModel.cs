@@ -1,17 +1,32 @@
 ﻿using System.IO;
+using System.Threading.Tasks;
 using System.Windows.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using RocketLearning.ReinforcementLearning;
 
 namespace RocketLearning.ViewModels;
 
-public class MainWindowViewModel : ViewModelBase
+public partial class MainWindowViewModel : ViewModelBase
 {
-    private object _currentView = null!;
     private const string BestScorePath = "BestScore.txt";
-    public double SessionBestScore { get; private set; } = 0;
-    public double AllTimeBestScore { get; private set; }
-    public ICommand StartCommand { get; }
     public readonly MasterTrainer Trainer = new(network => Agent.GameEvaluator.EvaluateNetwork(network));
+
+    [ObservableProperty]
+    private object currentView = null!;
+
+    [ObservableProperty]
+    private double sessionBestScore = 0;
+
+    [ObservableProperty]
+    private double allTimeBestScore;
+
+    [ObservableProperty]
+    private bool isTrainingPopupVisible;
+
+    public TrainingProgressViewModel TrainingProgress { get; } = new();
+
+    public ICommand StartCommand { get; }
 
     public MainWindowViewModel()
     {
@@ -30,19 +45,29 @@ public class MainWindowViewModel : ViewModelBase
     {
         File.WriteAllText(BestScorePath, AllTimeBestScore.ToString("F2"));
     }
+
     public void LoadSavedNetwork()
     {
         Trainer.LoadBestGenome();
     }
-    public object CurrentView
-    {
-        get => _currentView;
-        set => SetProperty(ref _currentView, value);
-    }
 
-    public void StartTraining()
+    public async void StartTraining()
     {
-        Trainer.Run();
+        IsTrainingPopupVisible = true;
+        TrainingProgress.Progress = 0;
+
+        await Task.Run(() =>
+        {
+            Trainer.Run(progress =>
+            {
+                Avalonia.Threading.Dispatcher.UIThread.InvokeAsync(() =>
+                {
+                    TrainingProgress.Progress = progress;
+                });
+            });
+        });
+
+        IsTrainingPopupVisible = false;
     }
 
     public void ReportScore(double score)
