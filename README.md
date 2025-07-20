@@ -14,6 +14,29 @@ Rocket Learning is a reinforcement learning library using Neat and a 2D game sim
   - Train the NEAT algorithm
   - Showcase of the landings using NEAT
 
+
+## Project Layout 
+Project consists out of 3 main libraries and Avalonia application. 
+
+- RocketLearning -Avalonia application - Runs the whole app, time management.
+- Agent - Library that controls the Rocket.
+- Game - Library with the game state and physics. 
+- Reinforcement Learning - library with Neat 
+
+RocketLearning takes care of the application layout and UI. Also has a IAgent interface which can take 
+either HumanAgent or NearAgent. Depending on that we can either play or train/load NEAT and let NEAT play. Owns GameState where the current game is displayed.
+
+IAgent has a method Decide which gets the current game state and lets the implementation decide what next action to take.
+In HumanAgent the player can control the rocket using arrows. In NEATAgent a NN is used to get the best action to take. For training is used the method GameEvaluator that simulates the game with N spawn points using the NN.
+
+Game stores the current game state. Position of the rocket current score and takes care of physics. Has method Tick() which applies the implemented game physics to the rocket each time it is called. 
+Allowing for the game to be played and to be called in 60fps or to be simulated with maximum speed and no delay. 
+
+Reinforcement learning has a main class MasterTrainer that has the population of genomes. This population is being split in between Trainer, which can then run parallel.
+Trainer evolves the genomes he was given for a set generations by applying crossovers and mutations to them. Each new generation is then chosen using a SelectionFunction.  
+Out of the genomes we can then create a NN to test it out using GameEvaluator. 
+
+
 ## NEAT configuration
 In NEAT library in files config.cs you can configure the NEAT.
 - int InputSize - number of inputs that the NN will be taking(Important to create the right amount of input nodes)
@@ -48,6 +71,7 @@ In NEAT library in files config.cs you can configure the NEAT.
 - int SynchronizationLength - After how many generations should all genomes be put together from all the parallel cores and redistributed again
 - int Cores - how many cores should be used
 
+With 200 generations and 400 population size on a MacBook Air M1 you can expect for the training to take around 60-80 minutes.
 
 ## Agent 
 It is possible to create your own agent and test it how good it performs in the game. 
